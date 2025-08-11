@@ -18,6 +18,8 @@
             android:id="@+id/arrow_back"
             android:layout_width="@dimen/icon_large"
             android:layout_height="@dimen/icon_large"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:contentDescription="@string/back_description"
             android:src="@drawable/vector_arrow_back"
             app:tint="@color/black" />
@@ -25,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start"
+            android:layout_marginStart="@dimen/margin_section"
             android:text="@string/settings_title"
             android:textColor="@color/black"
             android:textSize="@dimen/text_title"
@@ -35,7 +37,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_item"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical"
@@ -59,7 +60,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_item"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical"
@@ -77,14 +77,15 @@
         <ImageView
             android:layout_width="@dimen/icon_small"
             android:layout_height="@dimen/icon_small"
-            android:src="@drawable/vector_share"
-            app:tint="@color/black" />
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/vector_share" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_item"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical"
@@ -102,8 +103,10 @@
         <ImageView
             android:layout_width="@dimen/icon_small"
             android:layout_height="@dimen/icon_small"
-            android:src="@drawable/vector_support"
-            app:tint="@color/black" />
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/vector_support"/>
     </LinearLayout>
 
     <LinearLayout
@@ -126,8 +129,10 @@
         <ImageView
             android:layout_width="@dimen/icon_small"
             android:layout_height="@dimen/icon_small"
-            android:src="@drawable/vector_arrow_forward"
-            app:tint="@color/black" />
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/vector_arrow_forward" />
     </LinearLayout>
 
 </LinearLayout>
