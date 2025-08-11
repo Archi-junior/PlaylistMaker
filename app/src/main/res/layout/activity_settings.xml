@@ -21,7 +21,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:contentDescription="@string/back_description"
-            android:src="@drawable/vector_arrow_back"
+            android:src="@drawable/ic_back_arrow_24"
             app:tint="@color/black" />
 
         <TextView
