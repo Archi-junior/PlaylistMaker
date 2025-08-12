@@ -4,7 +4,8 @@
     <dimen name="padding_icon_vertical">18dp</dimen>
     <dimen name="margin_item">16dp</dimen>
     <dimen name="margin_section">24dp</dimen>
-    <dimen name="margin_start">12dp</dimen>
+    <dimen name="margin_large">12dp</dimen>
+    <dimen name="margin_small">6dp</dimen>
     <dimen name="margin_icon">4dp</dimen>
     <dimen name="margin_bottom_text">24dp</dimen>
     <dimen name="text_title">22sp</dimen>
