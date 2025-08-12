@@ -19,6 +19,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_search"
         style="@style/MainScreenButton"
+        android:layout_marginBottom="16dp"
         android:layout_weight="1"
         android:text="@string/button_search"
         app:icon="@drawable/vector_search" />
@@ -26,6 +27,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_library"
         style="@style/MainScreenButton"
+        android:layout_marginBottom="16dp"
         android:layout_weight="1"
         android:text="@string/button_library"
         app:icon="@drawable/vector_music" />
@@ -33,6 +35,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_settings"
         style="@style/MainScreenButton"
+        android:layout_marginBottom="0dp"
         android:layout_weight="1"
         android:text="@string/button_settings"
         app:icon="@drawable/vector_settings" />
