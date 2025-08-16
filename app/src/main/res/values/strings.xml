@@ -16,4 +16,13 @@
     <string name="rating_question">Рейтинг этого фильма больше чем 9?</string>
     <string name="search_screen_title">Экран поиска</string>
     <string name="media_library_screen_title">Экран медиатеки</string>
+    <string name="share_app_text">https://practicum.yandex.ru/</string>
+    <string name="share_chooser_title">Поделиться через</string>
+    <string name="support_email">armandosov@yandex.com</string>
+    <string name="support_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="support_body">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="user_agreement_url">https://yandex.ru/legal/practicum_offer/ru/</string>
+    <string name="search_hint">Поиск</string>
+    <string name="clear_description">Очистить поиск</string>
+    <string name="search_header">Поиск</string>
 </resources>
