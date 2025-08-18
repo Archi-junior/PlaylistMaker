@@ -22,21 +22,13 @@
     </style>
 
     <style name="SettingsText">
-        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_marginStart">@dimen/margin_item</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textSize">@dimen/text_item</item>
         <item name="android:fontFamily">@font/ys_regular</item>>
-    </style>
-
-    <style name="SettingsIcon">
-        <item name="android:layout_width">@dimen/icon_small</item>
-        <item name="android:layout_height">@dimen/icon_small</item>
         <item name="android:layout_marginEnd">@dimen/margin_large</item>
-        <item name="android:adjustViewBounds">true</item>
-        <item name="android:scaleType">centerInside</item>
-        <item name="tint">?attr/colorSecondary</item>
+        <item name="android:layout_marginStart">@dimen/margin_item</item>
+        <item name="drawableTint">?attr/colorSecondary</item>
     </style>
 </resources>

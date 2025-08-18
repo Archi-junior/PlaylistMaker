@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 
@@ -15,9 +16,9 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.arrow_back).setOnClickListener { finish() }
 
-        findViewById<LinearLayout>(R.id.layout_share_app).setOnClickListener { shareApp() }
-        findViewById<LinearLayout>(R.id.layout_contact_support).setOnClickListener { contactSupport() }
-        findViewById<LinearLayout>(R.id.user_agreement_layout).setOnClickListener {
+        findViewById<TextView>(R.id.layout_share_app).setOnClickListener { shareApp() }
+        findViewById<TextView>(R.id.layout_contact_support).setOnClickListener { contactSupport() }
+        findViewById<TextView>(R.id.user_agreement_layout).setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, getString(R.string.user_agreement_url).toUri())
             startActivity(browserIntent)
         }

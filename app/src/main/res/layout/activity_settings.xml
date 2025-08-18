@@ -49,6 +49,8 @@
 
         <TextView
             style="@style/SettingsText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:text="@string/dark_theme" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -59,62 +61,42 @@
             app:thumbTint="@color/switch_thumb_color" />
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
         android:id="@+id/layout_share_app"
+        style="@style/SettingsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:drawablePadding="8dp"
         android:focusable="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_icon_vertical">
+        android:paddingVertical="@dimen/padding_icon_vertical"
+        android:text="@string/share_app"
+        app:drawableEndCompat="@drawable/vector_share" />
 
-        <TextView
-            style="@style/SettingsText"
-            android:text="@string/share_app" />
-
-        <ImageView
-            style="@style/SettingsIcon"
-            android:src="@drawable/vector_share" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:id="@+id/layout_contact_support"
+        style="@style/SettingsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:drawablePadding="8dp"
         android:focusable="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_icon_vertical">
+        android:paddingVertical="@dimen/padding_icon_vertical"
+        android:text="@string/contact_support"
+        app:drawableEndCompat="@drawable/vector_support" />
 
-        <TextView
-            style="@style/SettingsText"
-            android:text="@string/contact_support" />
-
-        <ImageView
-            style="@style/SettingsIcon"
-            android:src="@drawable/vector_support" />
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:id="@+id/user_agreement_layout"
+        style="@style/SettingsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:drawablePadding="8dp"
         android:focusable="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_icon_vertical">
-
-        <TextView
-            style="@style/SettingsText"
-            android:text="@string/user_agreement" />
-
-        <ImageView
-            style="@style/SettingsIcon"
-            android:src="@drawable/vector_arrow_forward" />
-    </LinearLayout>
-
+        android:paddingVertical="@dimen/padding_icon_vertical"
+        android:text="@string/user_agreement"
+        app:drawableEndCompat="@drawable/vector_arrow_forward" />
 </LinearLayout>

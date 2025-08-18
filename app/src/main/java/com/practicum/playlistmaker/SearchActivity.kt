@@ -8,6 +8,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 
 class SearchActivity : AppCompatActivity() {
 
@@ -27,16 +29,10 @@ class SearchActivity : AppCompatActivity() {
         searchEditText = findViewById(R.id.search_edit_text)
         clearButton = findViewById(R.id.clear_button)
         backButton = findViewById(R.id.back_button)
-
-        searchEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchQuery = s?.toString() ?: ""
-                clearButton.visibility = if (searchQuery.isEmpty()) ImageView.GONE else ImageView.VISIBLE
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        searchEditText.doOnTextChanged { text, _, _, _ ->
+            searchQuery = text?.toString().orEmpty()
+            clearButton.isVisible = !text.isNullOrEmpty()
+        }
 
         clearButton.setOnClickListener {
             searchEditText.text.clear()
