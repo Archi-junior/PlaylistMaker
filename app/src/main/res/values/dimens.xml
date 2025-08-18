@@ -14,4 +14,8 @@
     <dimen name="icon_padding_bottom">11dp</dimen>
     <dimen name="icon_large">48dp</dimen>
     <dimen name="icon_small">24dp</dimen>
+    <dimen name="track_artwork_corner_radius">8dp</dimen>
+    <dimen name="track_item_padding">13dp</dimen>
+    <dimen name="track_text_size">16sp</dimen>
+    <dimen name="track_subtext_size">11sp</dimen>
 </resources>
