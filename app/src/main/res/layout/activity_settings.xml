@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical"
     android:paddingBottom="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/margin_section">
+        android:layout_marginBottom="@dimen/margin_section"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/arrow_back"
@@ -21,10 +21,10 @@
             android:layout_marginTop="@dimen/margin_icon"
             android:layout_marginBottom="@dimen/margin_icon"
             android:adjustViewBounds="true"
-            android:scaleType="centerInside"
             android:contentDescription="@string/back_description"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_back_arrow_24"
-            app:tint="@color/black" />
+            app:tint="?attr/colorOnPrimary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginBottom="10dp"
             android:text="@string/settings_title"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/text_title"
             android:textStyle="bold" />
     </LinearLayout>
@@ -48,100 +48,55 @@
         android:paddingVertical="@dimen/padding_item_vertical">
 
         <TextView
+            style="@style/SettingsText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="@dimen/margin_item"
-            android:text="@string/dark_theme"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_item" />
+            android:text="@string/dark_theme" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_dark_theme"
-            android:layout_marginEnd="@dimen/margin_small"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            app:thumbTint="@color/switch_thumb_color" />
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/layout_share_app"
+        style="@style/SettingsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:drawablePadding="8dp"
         android:focusable="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_icon_vertical">
+        android:paddingVertical="@dimen/padding_icon_vertical"
+        android:text="@string/share_app"
+        app:drawableEndCompat="@drawable/vector_share" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/margin_item"
-            android:text="@string/share_app"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_item" />
-
-        <ImageView
-            android:layout_width="@dimen/icon_small"
-            android:layout_height="@dimen/icon_small"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:src="@drawable/vector_share" />
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/layout_contact_support"
+        style="@style/SettingsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:drawablePadding="8dp"
         android:focusable="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_icon_vertical">
+        android:paddingVertical="@dimen/padding_icon_vertical"
+        android:text="@string/contact_support"
+        app:drawableEndCompat="@drawable/vector_support" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/margin_item"
-            android:text="@string/contact_support"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_item" />
-
-        <ImageView
-            android:layout_width="@dimen/icon_small"
-            android:layout_height="@dimen/icon_small"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:src="@drawable/vector_support"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/user_agreement_layout"
+        style="@style/SettingsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:drawablePadding="8dp"
         android:focusable="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_icon_vertical">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/margin_item"
-            android:text="@string/user_agreement"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_item" />
-
-        <ImageView
-            android:layout_width="@dimen/icon_small"
-            android:layout_height="@dimen/icon_small"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:src="@drawable/vector_arrow_forward" />
-    </LinearLayout>
-
+        android:paddingVertical="@dimen/padding_icon_vertical"
+        android:text="@string/user_agreement"
+        app:drawableEndCompat="@drawable/vector_arrow_forward" />
 </LinearLayout>
