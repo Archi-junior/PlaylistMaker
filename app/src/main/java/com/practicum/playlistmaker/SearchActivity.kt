@@ -73,7 +73,7 @@ class SearchActivity : AppCompatActivity() {
         clearButton.setOnClickListener {
             searchEditText.text.clear()
             clearButton.visibility = ImageView.GONE
-            adapter.updateList(emptyList()) // очищаем список при нажатии clear
+            adapter.updateList(allTracks)
             hideKeyboard()
         }
 
@@ -83,7 +83,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = TrackAdapter(mutableListOf()) // стартуем с пустым списком
+        adapter = TrackAdapter(allTracks)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }
@@ -96,7 +96,7 @@ class SearchActivity : AppCompatActivity() {
             if (searchQuery.isNotEmpty()) {
                 filterTracks(searchQuery)
             } else {
-                adapter.updateList(emptyList()) // очищаем, если поле пустое
+                adapter.updateList(allTracks)
             }
         }
     }

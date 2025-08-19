@@ -15,9 +15,9 @@
             android:id="@+id/back_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/back_description"
             android:src="@drawable/ic_back_arrow_24"
             app:tint="?attr/colorOnPrimary" />
@@ -27,8 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:fontFamily="@font/ys_medium"
             android:text="@string/search_header"
             android:textColor="?attr/colorOnPrimary"
@@ -49,21 +49,21 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_search_14"
+            android:drawablePadding="8dp"
+            android:drawableTint="?attr/colorSecondaryVariant"
+            android:fontFamily="@font/ys_regular"
             android:hint="@string/search_hint"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
-            android:singleLine="true"
             android:paddingStart="12dp"
             android:paddingEnd="40dp"
+            android:singleLine="true"
             android:textColor="@color/black"
-            android:fontFamily="@font/ys_regular"
             android:textColorHint="?attr/colorSecondaryVariant"
             android:textCursorDrawable="@drawable/cursor_blue"
-            android:textSize="16sp"
-            android:drawableStart="@drawable/ic_search_14"
-            android:drawableTint="?attr/colorSecondaryVariant"
-            android:drawablePadding="8dp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/clear_button"
@@ -80,9 +80,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tracks_recycler_view"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/margin_item"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:clipToPadding="false" />
 
     <View
@@ -94,86 +93,4 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/light_gray" />
-
-    <LinearLayout
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="2dp"
-                android:src="@drawable/vector_search"
-                app:tint="@color/blue" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ys_regular"
-                android:text="@string/button_search"
-                android:textColor="@color/blue"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="2dp"
-                android:src="@drawable/vector_music"
-                app:tint="?attr/colorOnPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ys_regular"
-                android:text="@string/button_library"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="2dp"
-                android:src="@drawable/vector_settings"
-                app:tint="?attr/colorOnPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ys_regular"
-                android:text="@string/button_settings"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+   </LinearLayout>
