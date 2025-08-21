@@ -25,4 +25,6 @@
     <string name="search_hint">Поиск</string>
     <string name="clear_description">Очистить поиск</string>
     <string name="search_header">Поиск</string>
+    <string name="arrow_more">Узнать больше</string>
+    <string name="track_cover">Обложка трека</string>
 </resources>
