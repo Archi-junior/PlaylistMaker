@@ -50,19 +50,16 @@ class SearchActivity : AppCompatActivity() {
 
         historyLayout = findViewById(R.id.history_layout)
 
-        // элементы поиска
         searchEditText = findViewById(R.id.search_edit_text)
         clearButton = findViewById(R.id.clear_button)
         backButton = findViewById(R.id.back_button)
         recyclerView = findViewById(R.id.tracks_recycler_view)
 
-        // история
         historyTitle = findViewById(R.id.history_title)
         historyRecycler = findViewById(R.id.history_recycler)
         clearHistoryButton = findViewById(R.id.clear_history_button)
         historyManager = SearchHistoryManager(this)
 
-        // плейсхолдеры
         placeholderLayout = findViewById(R.id.placeholder_layout)
         placeholderImage = findViewById(R.id.placeholder_image)
         placeholderText = findViewById(R.id.placeholder_text)
@@ -78,7 +75,7 @@ class SearchActivity : AppCompatActivity() {
             searchEditText.text.clear()
             clearButton.isVisible = false
             adapter.updateList(emptyList())
-            showHistory()
+            showHistoryIfEmptyQuery()
             hideKeyboard()
         }
 
@@ -90,17 +87,14 @@ class SearchActivity : AppCompatActivity() {
 
         clearHistoryButton.setOnClickListener {
             historyManager.clear()
-            updateHistory()
+            updateHistory(show = true)
         }
 
-        updateHistory()
+        updateHistory(show = true)
     }
 
     private fun setupRetrofit() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://itunes.apple.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofit = Retrofit.Builder().baseUrl("https://itunes.apple.com/").addConverterFactory(GsonConverterFactory.create()).build()
         apiService = retrofit.create(ItunesApiService::class.java)
     }
 
@@ -116,7 +110,6 @@ class SearchActivity : AppCompatActivity() {
     private fun setupHistoryRecycler() {
         historyAdapter = TrackAdapter(emptyList()) { track ->
             historyManager.addTrack(track)
-            updateHistory()
             searchEditText.setText(track.trackName)
             searchEditText.setSelection(track.trackName.length)
             searchQuery = track.trackName
@@ -132,8 +125,10 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.isVisible = !s.isNullOrEmpty()
             }
+
             override fun afterTextChanged(s: android.text.Editable?) {}
         })
+
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchQuery = searchEditText.text.toString().trim()
@@ -143,7 +138,7 @@ class SearchActivity : AppCompatActivity() {
                     searchTracksOnline(searchQuery)
                 } else {
                     adapter.updateList(emptyList())
-                    showHistory()
+                    showHistoryIfEmptyQuery()
                 }
                 hideKeyboard()
                 true
@@ -175,9 +170,6 @@ class SearchActivity : AppCompatActivity() {
     private fun showPlaceholder(isError: Boolean) {
         recyclerView.visibility = View.GONE
         historyLayout.visibility = View.GONE
-        historyRecycler.visibility = View.GONE
-        historyTitle.visibility = View.GONE
-        clearHistoryButton.visibility = View.GONE
         placeholderLayout.visibility = View.VISIBLE
 
         if (isError) {
@@ -195,12 +187,15 @@ class SearchActivity : AppCompatActivity() {
 
     private fun showResults(tracks: List<Track>) {
         placeholderLayout.visibility = View.GONE
-        placeholderLayout.visibility = View.GONE
-        historyRecycler.visibility = View.GONE
-        historyTitle.visibility = View.GONE
-        clearHistoryButton.visibility = View.GONE
+        historyLayout.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
         adapter.updateList(tracks)
+    }
+
+    private fun showHistoryIfEmptyQuery() {
+        if (searchEditText.text.isEmpty()) {
+            showHistory()
+        }
     }
 
     private fun showHistory() {
@@ -218,11 +213,10 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun updateHistory() {
+    private fun updateHistory(show: Boolean = false) {
         val history = historyManager.getHistory()
         historyAdapter.updateList(history)
-        showHistory()
+        if (show) showHistoryIfEmptyQuery()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -238,7 +232,7 @@ class SearchActivity : AppCompatActivity() {
         if (searchQuery.isNotEmpty()) {
             searchTracksOnline(searchQuery)
         } else {
-            updateHistory()
+            updateHistory(show = true)
         }
     }
 
