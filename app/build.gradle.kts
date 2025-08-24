@@ -34,7 +34,9 @@ android {
 
 dependencies {
     implementation(libs.glide)
-    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.24")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

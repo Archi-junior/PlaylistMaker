@@ -27,4 +27,8 @@
     <string name="search_header">Поиск</string>
     <string name="arrow_more">Узнать больше</string>
     <string name="track_cover">Обложка трека</string>
+    <string name="refresh">Обновить</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="error_message_header">Проблемы со связью</string>
+    <string name="error_message_body">Загрузка не удалась. Проверьте подключение к интернету</string>
 </resources>

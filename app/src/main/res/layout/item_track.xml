@@ -75,5 +75,6 @@
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/arrow_more"
         android:src="@drawable/vector_arrow_forward"
+        android:layout_marginEnd="12dp"
         app:tint="?attr/colorSecondary" />
 </LinearLayout>
