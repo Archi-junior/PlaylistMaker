@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +16,12 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         findViewById<ImageView>(R.id.arrow_back).setOnClickListener { finish() }
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+        val app = applicationContext as App
+        themeSwitcher.isChecked = app.darkTheme
+        themeSwitcher.setOnCheckedChangeListener { _, checked ->
+            app.switchTheme(checked)
+        }
 
         findViewById<TextView>(R.id.layout_share_app).setOnClickListener { shareApp() }
         findViewById<TextView>(R.id.layout_contact_support).setOnClickListener { contactSupport() }

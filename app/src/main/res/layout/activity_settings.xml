@@ -53,12 +53,14 @@
             android:layout_weight="1"
             android:text="@string/dark_theme" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_dark_theme"
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
+            android:layout_marginHorizontal="60dp"
+            android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_small"
-            app:thumbTint="@color/switch_thumb_color" />
+            app:thumbTint="@color/switch_thumb_color"/>
     </LinearLayout>
 
     <TextView

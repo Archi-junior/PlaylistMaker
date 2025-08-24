@@ -11,7 +11,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 
 class TrackAdapter(
-    private var tracks: List<Track>
+    private var tracks: List<Track>,
+    private val onTrackClick: (Track) -> Unit
 ) : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     inner class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -34,6 +35,9 @@ class TrackAdapter(
                         .transform(RoundedCorners(itemView.context.resources.getDimensionPixelSize(R.dimen.track_artwork_corner_radius)))
                 )
                 .into(artworkImageView)
+            itemView.setOnClickListener {
+                onTrackClick(track)
+            }
         }
     }
 
@@ -54,3 +58,4 @@ class TrackAdapter(
         notifyDataSetChanged()
     }
 }
+
