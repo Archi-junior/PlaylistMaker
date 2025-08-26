@@ -12,7 +12,7 @@
         <item name="android:layout_height">0dp</item>
         <item name="android:backgroundTint">@android:color/white</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:fontFamily">@font/ys_medium</item>>
+        <item name="android:fontFamily">@font/ys_medium_500</item>>
         <item name="android:textSize">22sp</item>
         <item name="iconTint">@color/black</item>
         <item name="iconPadding">12dp</item>

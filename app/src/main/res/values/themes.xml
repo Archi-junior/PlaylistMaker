@@ -4,6 +4,7 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorSurface">@color/main_background</item>
         <item name="colorSecondary">@color/gray</item>
+        <item name="colorPrimaryVariant">@color/gray</item>
         <item name="colorSecondaryVariant">@color/gray</item>
         <item name="android:textColor">@color/black</item>
         <item name="materialButtonStyle">@style/MainScreenButton</item>
