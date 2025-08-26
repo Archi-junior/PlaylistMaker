@@ -2,6 +2,7 @@
     <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/black</item>
         <item name="colorSurface">@color/black</item>
+        <item name="colorSurfaceVariant">@color/main_black</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/black</item>

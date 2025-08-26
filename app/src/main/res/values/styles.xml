@@ -31,4 +31,38 @@
         <item name="android:layout_marginStart">@dimen/margin_item</item>
         <item name="drawableTint">?attr/colorSecondary</item>
     </style>
+
+    <style name="RoundedCorner8">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="InfoRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingHorizontal">@dimen/info_row_padding_horizontal</item>
+        <item name="android:paddingVertical">@dimen/info_row_padding_vertical</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="InfoLabelText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/ys_regular</item>
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
+        <item name="android:textSize">@dimen/info_text_size</item>
+    </style>
+
+    <style name="InfoValueText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/ys_regular</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">@dimen/info_text_size</item>
+    </style>
+
 </resources>

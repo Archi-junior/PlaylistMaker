@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceVariant">
 
     <ImageButton
         android:id="@+id/back_button"
@@ -31,7 +32,7 @@
             android:orientation="vertical"
             android:paddingTop="26dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/cover_image"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -40,7 +41,7 @@
                 android:paddingHorizontal="24dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_image_placeholder_34"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:shapeAppearanceOverlay="@style/RoundedCorner8" />
 
             <TextView
                 android:id="@+id/track_title"
@@ -128,156 +129,76 @@
 
                 <LinearLayout
                     android:id="@+id/duration_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:visibility="gone">
+                    style="@style/InfoRow">
 
                     <TextView
                         android:id="@+id/label_duration"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:text="@string/duration"
-                        android:textColor="?attr/colorPrimaryVariant"
-                        android:textSize="13sp" />
+                        style="@style/InfoLabelText"
+                        android:text="@string/duration" />
 
                     <TextView
                         android:id="@+id/track_duration"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:textAlignment="textEnd"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:textSize="13sp" />
-
+                        style="@style/InfoValueText" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/album_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:visibility="gone">
+                    style="@style/InfoRow">
 
                     <TextView
                         android:id="@+id/label_album"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:text="@string/album"
-                        android:textColor="?attr/colorPrimaryVariant"
-                        android:textSize="13sp" />
+                        style="@style/InfoLabelText"
+                        android:text="@string/album" />
 
                     <TextView
                         android:id="@+id/track_album"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:textAlignment="textEnd"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:textSize="13sp" />
+                        style="@style/InfoValueText"
+                        android:ellipsize="end"
+                        android:maxLines="1" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/year_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:visibility="gone">
+                    style="@style/InfoRow">
 
                     <TextView
                         android:id="@+id/label_year"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:text="@string/year"
-                        android:textColor="?attr/colorPrimaryVariant"
-                        android:textSize="13sp" />
+                        style="@style/InfoLabelText"
+                        android:text="@string/year" />
 
                     <TextView
                         android:id="@+id/track_year"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:textAlignment="textEnd"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:textSize="13sp" />
+                        style="@style/InfoValueText" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/genre_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:visibility="gone">
+                    style="@style/InfoRow">
 
                     <TextView
                         android:id="@+id/label_genre"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:text="@string/genre"
-                        android:textColor="?attr/colorPrimaryVariant"
-                        android:textSize="13sp" />
+                        style="@style/InfoLabelText"
+                        android:text="@string/genre" />
 
                     <TextView
                         android:id="@+id/track_genre"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:textAlignment="textEnd"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:textSize="13sp" />
+                        style="@style/InfoValueText" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/country_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:visibility="gone">
+                    style="@style/InfoRow">
 
                     <TextView
                         android:id="@+id/label_country"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:text="@string/country"
-                        android:textColor="?attr/colorPrimaryVariant"
-                        android:textSize="13sp" />
+                        style="@style/InfoLabelText"
+                        android:text="@string/country" />
 
                     <TextView
                         android:id="@+id/track_country"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/ys_regular"
-                        android:textAlignment="textEnd"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:textSize="13sp" />
+                        style="@style/InfoValueText" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
