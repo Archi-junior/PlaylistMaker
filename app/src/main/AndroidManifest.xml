@@ -35,12 +35,15 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".SearchActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".MediaLibraryActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
+        <activity
+            android:name=".AudioPlayerActivity"
+            android:exported="true" />
     </application>
 </manifest>

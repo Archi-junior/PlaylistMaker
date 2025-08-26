@@ -3,6 +3,7 @@ package com.practicum.playlistmaker
 import ItunesApiService
 import SearchHistoryManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -102,6 +103,7 @@ class SearchActivity : AppCompatActivity() {
         adapter = TrackAdapter(emptyList()) { track ->
             historyManager.addTrack(track)
             updateHistory()
+            openAudioPlayer(track)
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -114,6 +116,7 @@ class SearchActivity : AppCompatActivity() {
             searchEditText.setSelection(track.trackName.length)
             searchQuery = track.trackName
             searchTracksOnline(searchQuery)
+            openAudioPlayer(track)
         }
         historyRecycler.layoutManager = LinearLayoutManager(this)
         historyRecycler.adapter = historyAdapter
@@ -217,6 +220,12 @@ class SearchActivity : AppCompatActivity() {
         val history = historyManager.getHistory()
         historyAdapter.updateList(history)
         if (show) showHistoryIfEmptyQuery()
+    }
+
+    private fun openAudioPlayer(track: Track) {
+        val intent = Intent(this, AudioPlayerActivity::class.java)
+        intent.putExtra(AudioPlayerActivity.EXTRA_TRACK, track)
+        startActivity(intent)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

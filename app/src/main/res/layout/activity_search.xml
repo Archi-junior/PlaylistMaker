@@ -29,7 +29,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:fontFamily="@font/ys_medium"
+            android:fontFamily="@font/ys_medium_500"
             android:text="@string/search_header"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="22sp"
@@ -96,7 +96,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
             android:textSize="19sp"
-            android:fontFamily="@font/ys_medium"
+            android:fontFamily="@font/ys_medium_500"
             android:visibility="gone"/>
 
         <androidx.core.widget.NestedScrollView
@@ -125,7 +125,7 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:textSize="14sp"
-                    android:fontFamily="@font/ys_medium"
+                    android:fontFamily="@font/ys_medium_500"
                     android:visibility="gone"
                     android:backgroundTint="?attr/colorOnPrimary"
                     android:textColor="?attr/colorPrimary"
@@ -190,7 +190,7 @@
             android:text="@string/refresh"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:fontFamily="@font/ys_medium"
+            android:fontFamily="@font/ys_medium_500"
             android:textColor="?attr/colorPrimary"
             android:visibility="gone"/>
 
