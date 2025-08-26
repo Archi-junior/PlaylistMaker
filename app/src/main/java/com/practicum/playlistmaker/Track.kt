@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker
 
 data class Track(
+    val trackId: Long,
     val trackName: String,
     val artistName: String,
     val trackTime: String,
@@ -12,6 +13,7 @@ data class ItunesResponse(
 )
 
 data class ItunesTrack(
+    val trackId: Long?,
     val trackName: String?,
     val artistName: String?,
     val trackTimeMillis: Long?,
@@ -24,6 +26,7 @@ data class ItunesTrack(
         val formatted = String.format("%d:%02d", minutes, seconds)
 
         return Track(
+            trackId = trackId ?: 0L,
             trackName = trackName ?: "Unknown",
             artistName = artistName ?: "Unknown",
             trackTime = formatted,
