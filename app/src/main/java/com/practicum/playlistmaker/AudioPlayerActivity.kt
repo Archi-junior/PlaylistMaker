@@ -10,10 +10,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 class AudioPlayerActivity : AppCompatActivity() {
-    companion object {
-        const val EXTRA_TRACK = "extra_track"
-    }
-
     private lateinit var coverImage: ImageView
     private lateinit var titleText: TextView
     private lateinit var artistText: TextView
@@ -96,5 +92,9 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         val artworkUrl = track.artworkUrl100.replace("100x100bb.jpg", "512x512bb.jpg") ?: ""
         Glide.with(this).load(artworkUrl).apply(RequestOptions().placeholder(R.drawable.ic_image_placeholder_34)).into(coverImage)
+    }
+
+    companion object {
+        const val EXTRA_TRACK = "extra_track"
     }
 }
