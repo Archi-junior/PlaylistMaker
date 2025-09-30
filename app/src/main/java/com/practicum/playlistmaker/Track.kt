@@ -14,7 +14,8 @@ data class Track(
     val releaseDate: String?,
     val primaryGenreName: String?,
     val country: String?,
-    val trackTimeMillis: Long
+    val trackTimeMillis: Long,
+    val previewUrl: String?
 ) : Parcelable
 
 data class ItunesResponse(
@@ -31,7 +32,8 @@ data class ItunesTrack(
     val collectionName: String?,
     val releaseDate: String?,
     val primaryGenreName: String?,
-    val country: String?
+    val country: String?,
+    val previewUrl: String?
 ) {
     fun toTrack(): Track {
         val timeMillis = trackTimeMillis ?: 0L
@@ -49,7 +51,8 @@ data class ItunesTrack(
             releaseDate = releaseDate,
             primaryGenreName = primaryGenreName,
             country = country,
-            trackTimeMillis = timeMillis
+            trackTimeMillis = timeMillis,
+            previewUrl = previewUrl
         )
     }
 }

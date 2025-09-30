@@ -86,6 +86,13 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp">
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/history_title"
             android:layout_width="match_parent"
