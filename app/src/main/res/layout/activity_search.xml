@@ -77,6 +77,16 @@
             app:tint="?attr/colorSecondaryVariant" />
     </FrameLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/progress_main"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/history_layout"
         android:layout_width="match_parent"
@@ -85,13 +95,6 @@
         android:visibility="gone"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp">
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/history_title"

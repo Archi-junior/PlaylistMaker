@@ -178,12 +178,23 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchTracksOnline(query: String) {
+    private fun showLoading() {
         progressBar.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+        historyLayout.visibility = View.GONE
+        placeholderLayout.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        progressBar.visibility = View.GONE
+    }
+
+    private fun searchTracksOnline(query: String) {
+        showLoading()
         apiService.searchTracks(query).enqueue(object : Callback<ItunesResponse> {
             override fun onResponse(call: Call<ItunesResponse>, response: Response<ItunesResponse>) {
+                hideLoading()
                 if (response.isSuccessful) {
-                    progressBar.visibility = View.GONE
                     val tracks = response.body()?.results?.map { it.toTrack() } ?: emptyList()
                     if (tracks.isEmpty()) {
                         showPlaceholder(isError = false)
@@ -196,11 +207,12 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
-                progressBar.visibility = View.GONE
+                hideLoading()
                 showPlaceholder(isError = true)
             }
         })
     }
+
 
     private fun showPlaceholder(isError: Boolean) {
         recyclerView.visibility = View.GONE
