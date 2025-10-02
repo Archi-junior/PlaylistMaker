@@ -5,6 +5,8 @@ import SearchHistoryManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -41,10 +43,10 @@ class SearchActivity : AppCompatActivity() {
 
     private var searchQuery: String = ""
 
-    private val searchDebounceHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val searchDebounceHandler = Handler(Looper.getMainLooper())
     private var searchRunnable: Runnable? = null
 
-    private val clickDebounceHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val clickDebounceHandler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
 
     private lateinit var progressBar: ProgressBar
@@ -97,6 +99,11 @@ class SearchActivity : AppCompatActivity() {
         }
 
         updateHistory(show = true)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searchRunnable?.let { searchDebounceHandler.removeCallbacks(it) }
     }
 
     private fun clickDebounce(): Boolean {

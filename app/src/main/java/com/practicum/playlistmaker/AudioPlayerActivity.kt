@@ -46,7 +46,7 @@ class AudioPlayerActivity : AppCompatActivity() {
                     val minutes = position / 60
                     val seconds = position % 60
                     durationPlaceholder.text = String.format("%d:%02d", minutes, seconds)
-                    handler.postDelayed(this, 500)
+                    handler.postDelayed(this, MEDIA_PLAYER_DELAY)
                 }
             }
         }
@@ -157,7 +157,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         isPlaying = false
         handler.removeCallbacks(updateTimeRunnable)
         playButton.setImageResource(R.drawable.ic_play_image)
-        durationPlaceholder.text = "0:00"
+        durationPlaceholder.text = getString(R.string.duration_placeholder_null)
     }
 
     override fun onStop() {
@@ -186,6 +186,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_TRACK = "extra_track"
+        private const val MEDIA_PLAYER_DELAY: Long = 500
     }
 }
 
