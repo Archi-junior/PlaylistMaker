@@ -5,6 +5,8 @@ import SearchHistoryManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -41,13 +43,18 @@ class SearchActivity : AppCompatActivity() {
 
     private var searchQuery: String = ""
 
-    companion object {
-        private const val SEARCH_QUERY_KEY = "SEARCH_QUERY_KEY"
-    }
+    private val searchDebounceHandler = Handler(Looper.getMainLooper())
+    private var searchRunnable: Runnable? = null
+
+    private val clickDebounceHandler = Handler(Looper.getMainLooper())
+    private var isClickAllowed = true
+
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        progressBar = findViewById(R.id.progress_bar)
 
         historyLayout = findViewById(R.id.history_layout)
 
@@ -94,6 +101,20 @@ class SearchActivity : AppCompatActivity() {
         updateHistory(show = true)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        searchRunnable?.let { searchDebounceHandler.removeCallbacks(it) }
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            clickDebounceHandler.postDelayed({ isClickAllowed = true }, 1000) // 1 сек
+        }
+        return current
+    }
+
     private fun setupRetrofit() {
         val retrofit = Retrofit.Builder().baseUrl("https://itunes.apple.com/").addConverterFactory(GsonConverterFactory.create()).build()
         apiService = retrofit.create(ItunesApiService::class.java)
@@ -101,9 +122,11 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = TrackAdapter(emptyList()) { track ->
-            historyManager.addTrack(track)
-            updateHistory()
-            openAudioPlayer(track)
+            if (clickDebounce()) {
+                historyManager.addTrack(track)
+                updateHistory()
+                openAudioPlayer(track)
+            }
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -111,12 +134,14 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupHistoryRecycler() {
         historyAdapter = TrackAdapter(emptyList()) { track ->
-            historyManager.addTrack(track)
-            searchEditText.setText(track.trackName)
-            searchEditText.setSelection(track.trackName.length)
-            searchQuery = track.trackName
-            searchTracksOnline(searchQuery)
-            openAudioPlayer(track)
+            if (clickDebounce()) {
+                historyManager.addTrack(track)
+                searchEditText.setText(track.trackName)
+                searchEditText.setSelection(track.trackName.length)
+                searchQuery = track.trackName
+                searchTracksOnline(searchQuery)
+                openAudioPlayer(track)
+            }
         }
         historyRecycler.layoutManager = LinearLayoutManager(this)
         historyRecycler.adapter = historyAdapter
@@ -127,10 +152,21 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.isVisible = !s.isNullOrEmpty()
+                searchRunnable?.let { searchDebounceHandler.removeCallbacks(it) }
+                searchRunnable = Runnable {
+                    searchQuery = s?.toString()?.trim() ?: ""
+                    if (searchQuery.isNotEmpty()) {
+                        searchTracksOnline(searchQuery)
+                    } else {
+                        adapter.updateList(emptyList())
+                        showHistoryIfEmptyQuery()
+                    }
+                }
+                searchDebounceHandler.postDelayed(searchRunnable!!, SEARCH_TIMEOUT) // 2 sec
             }
-
             override fun afterTextChanged(s: android.text.Editable?) {}
         })
+
 
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -149,9 +185,22 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+        historyLayout.visibility = View.GONE
+        placeholderLayout.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        progressBar.visibility = View.GONE
+    }
+
     private fun searchTracksOnline(query: String) {
+        showLoading()
         apiService.searchTracks(query).enqueue(object : Callback<ItunesResponse> {
             override fun onResponse(call: Call<ItunesResponse>, response: Response<ItunesResponse>) {
+                hideLoading()
                 if (response.isSuccessful) {
                     val tracks = response.body()?.results?.map { it.toTrack() } ?: emptyList()
                     if (tracks.isEmpty()) {
@@ -165,10 +214,12 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
+                hideLoading()
                 showPlaceholder(isError = true)
             }
         })
     }
+
 
     private fun showPlaceholder(isError: Boolean) {
         recyclerView.visibility = View.GONE
@@ -249,5 +300,10 @@ class SearchActivity : AppCompatActivity() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(searchEditText.windowToken, 0)
         searchEditText.clearFocus()
+    }
+
+    companion object {
+        private const val SEARCH_QUERY_KEY = "SEARCH_QUERY_KEY"
+        private const val SEARCH_TIMEOUT: Long = 2000
     }
 }

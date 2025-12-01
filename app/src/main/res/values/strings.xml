@@ -40,4 +40,5 @@
     <string name="duration">Длительность</string>
     <string name="country">Страна</string>
     <string name="duration_placeholder_text">0:30</string>
+    <string name="duration_placeholder_null">0:00</string>
 </resources>
