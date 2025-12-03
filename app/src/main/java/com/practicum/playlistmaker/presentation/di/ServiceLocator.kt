@@ -7,6 +7,9 @@ import com.practicum.playlistmaker.data.repository.SearchHistoryRepositoryImpl
 import com.practicum.playlistmaker.data.repository.ThemeRepositoryImpl
 import com.practicum.playlistmaker.data.repository.TrackRepositoryImpl
 import com.practicum.playlistmaker.domain.interactors.HistoryInteractor
+import com.practicum.playlistmaker.domain.interactors.IHistoryInteractor
+import com.practicum.playlistmaker.domain.interactors.ISearchTracksInteractor
+import com.practicum.playlistmaker.domain.interactors.IThemeInteractor
 import com.practicum.playlistmaker.domain.interactors.SearchTracksInteractor
 import com.practicum.playlistmaker.domain.interactors.ThemeInteractor
 import com.practicum.playlistmaker.domain.repository.TrackRepository
@@ -18,7 +21,6 @@ object ServiceLocator {
     private var _historyRepository: SearchHistoryRepositoryImpl? = null
     private var _themeRepository: ThemeRepositoryImpl? = null
     private var _trackRepository: TrackRepository? = null
-
     private var _itunesApiService: ItunesApiService? = null
 
     fun init(appContext: Context) {
@@ -37,12 +39,12 @@ object ServiceLocator {
         _trackRepository = TrackRepositoryImpl(_itunesApiService!!)
     }
 
-    val themeInteractor: ThemeInteractor
+    val themeInteractor: IThemeInteractor
         get() = ThemeInteractor(_themeRepository!!)
 
-    val historyInteractor: HistoryInteractor
+    val historyInteractor: IHistoryInteractor
         get() = HistoryInteractor(_historyRepository!!)
 
-    val searchInteractor: SearchTracksInteractor
+    val searchInteractor: ISearchTracksInteractor
         get() = SearchTracksInteractor(_trackRepository!!)
 }

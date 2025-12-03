@@ -9,12 +9,13 @@ class TrackViewHolder(
     private val binding: ItemTrackBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Track) {
-        binding.trackName.text = item.trackName
-        binding.artistName.text = item.artistName
+    fun bind(track: Track) {
+        binding.trackName.text = track.trackName
+        binding.artistName.text = track.artistName
+        binding.trackTime.text = track.trackTime
 
         Glide.with(binding.root)
-            .load(item.artworkUrl100)
+            .load(track.artworkUrl100)
             .into(binding.trackArtwork)
     }
 }

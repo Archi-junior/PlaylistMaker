@@ -2,18 +2,19 @@ package com.practicum.playlistmaker.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.domain.interactors.HistoryInteractor
-import com.practicum.playlistmaker.domain.interactors.SearchTracksInteractor
+import com.practicum.playlistmaker.domain.interactors.IHistoryInteractor
+import com.practicum.playlistmaker.domain.interactors.ISearchTracksInteractor
 import com.practicum.playlistmaker.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val searchInteractor: SearchTracksInteractor,
-    private val historyInteractor: HistoryInteractor
+    private val searchInteractor: ISearchTracksInteractor,
+    private val historyInteractor: IHistoryInteractor
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SearchState>(SearchState.Idle)
@@ -27,7 +28,10 @@ class SearchViewModel(
 
     fun loadHistory() {
         val history = historyInteractor.getHistory()
-        _state.value = if (history.isEmpty()) SearchState.Idle else SearchState.History(history)
+        _state.update {
+            if (history.isEmpty()) SearchState.Idle
+            else SearchState.History(history)
+        }
     }
 
     fun getHistorySync(): List<Track> = historyInteractor.getHistory()
@@ -35,6 +39,10 @@ class SearchViewModel(
     fun addToHistory(track: Track) {
         historyInteractor.addTrack(track)
         loadHistory()
+    }
+
+    fun addToHistoryWithoutEmit(track: Track) {
+        historyInteractor.addTrack(track)
     }
 
     fun clearHistory() {

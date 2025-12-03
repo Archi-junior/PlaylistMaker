@@ -3,6 +3,9 @@ package com.practicum.playlistmaker.data.repository
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.practicum.playlistmaker.data.local.dto.TrackHistoryDto
+import com.practicum.playlistmaker.data.local.mapper.toDomain
+import com.practicum.playlistmaker.data.local.mapper.toHistoryDto
 import com.practicum.playlistmaker.domain.models.Track
 import com.practicum.playlistmaker.domain.repository.SearchHistoryRepository
 
@@ -13,23 +16,27 @@ class SearchHistoryRepositoryImpl(
 ) : SearchHistoryRepository {
 
     private val prefs = context.getSharedPreferences("search_history", Context.MODE_PRIVATE)
-    private val KEY = "tracks"
 
     override fun addTrack(track: Track) {
-        val list = getHistory().toMutableList()
-        // remove existing by id
-        list.removeAll { it.trackId == track.trackId }
-        list.add(0, track)
-        if (list.size > maxSize) {
-            while (list.size > maxSize) list.removeLast()
+        val dtoList = getHistoryDto().toMutableList()
+        val dto = track.toHistoryDto()
+        dtoList.removeAll { it.trackId == dto.trackId }
+        dtoList.add(0, dto)
+
+        while (dtoList.size > maxSize) {
+            dtoList.removeLast()
         }
-        prefs.edit().putString(KEY, gson.toJson(list)).apply()
+
+        prefs.edit().putString(KEY, gson.toJson(dtoList)).apply()
     }
 
-    override fun getHistory(): List<Track> {
+    override fun getHistory(): List<Track> =
+        getHistoryDto().map { it.toDomain() }
+
+    private fun getHistoryDto(): List<TrackHistoryDto> {
         val json = prefs.getString(KEY, null) ?: return emptyList()
         return try {
-            val type = object : TypeToken<List<Track>>() {}.type
+            val type = object : TypeToken<List<TrackHistoryDto>>() {}.type
             gson.fromJson(json, type)
         } catch (e: Exception) {
             emptyList()
@@ -38,5 +45,9 @@ class SearchHistoryRepositoryImpl(
 
     override fun clear() {
         prefs.edit().remove(KEY).apply()
+    }
+
+    companion object {
+        private const val KEY = "tracks"
     }
 }

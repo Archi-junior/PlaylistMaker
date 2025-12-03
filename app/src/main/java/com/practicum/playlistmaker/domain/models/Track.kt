@@ -18,15 +18,9 @@ data class Track(
     val previewUrl: String?
 ) : Parcelable
 
-data class ItunesTrack(
-    val trackId: Long?,
-    val trackName: String?,
-    val artistName: String?,
-    val trackTimeMillis: Long?,
-    val artworkUrl100: String?,
-    val collectionName: String?,
-    val releaseDate: String?,
-    val primaryGenreName: String?,
-    val country: String?,
-    val previewUrl: String?
-)
+fun Long.toTrackTime(): String {
+    val totalSeconds = this / 1000
+    val minutes = totalSeconds / 60
+    val seconds = totalSeconds % 60
+    return String.format("%d:%02d", minutes, seconds)
+}

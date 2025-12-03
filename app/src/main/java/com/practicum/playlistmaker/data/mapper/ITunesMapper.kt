@@ -1,9 +1,9 @@
 package com.practicum.playlistmaker.data.mapper
 
-import com.practicum.playlistmaker.domain.models.ItunesTrack
+import com.practicum.playlistmaker.data.network.dto.ItunesTrackDto
 import com.practicum.playlistmaker.domain.models.Track
 
-fun ItunesTrack.toDomain(): Track {
+fun ItunesTrackDto.toDomain(): Track {
     val timeMillis = trackTimeMillis ?: 0L
     val minutes = timeMillis / 1000 / 60
     val seconds = timeMillis / 1000 % 60

@@ -61,7 +61,9 @@ class SearchActivity : AppCompatActivity() {
     private fun setupRecyclerViews() {
         adapter = TrackAdapter { track ->
             if (clickDebounce()) {
-                viewModel.addToHistory(track)
+                lifecycleScope.launch {
+                    viewModel.addToHistoryWithoutEmit(track)
+                }
                 openPlayer(track)
             }
         }
@@ -71,10 +73,6 @@ class SearchActivity : AppCompatActivity() {
         historyAdapter = TrackAdapter { track ->
             if (clickDebounce()) {
                 viewModel.addToHistory(track)
-                binding.searchEditText.setText(track.trackName)
-                binding.searchEditText.setSelection(track.trackName.length)
-                searchQuery = track.trackName
-                performSearchDebounced(searchQuery)
                 openPlayer(track)
             }
         }
