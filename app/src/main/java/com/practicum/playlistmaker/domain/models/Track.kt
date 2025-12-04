@@ -16,7 +16,10 @@ data class Track(
     val country: String?,
     val trackTimeMillis: Long,
     val previewUrl: String?
-) : Parcelable
+) : Parcelable{
+    val artworkUrl512: String
+        get() = artworkUrl100.replace("100x100bb", "512x512bb")
+}
 
 fun Long.toTrackTime(): String {
     val totalSeconds = this / 1000

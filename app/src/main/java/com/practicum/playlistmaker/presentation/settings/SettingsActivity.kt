@@ -18,11 +18,24 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.themeSwitcher.isChecked = ServiceLocator.themeInteractor.isDark()
+        binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
+            ServiceLocator.themeInteractor.saveTheme(isChecked)
+            applyTheme(isChecked)
+        }
         binding.layoutShareApp.setOnClickListener { shareApp() }
         binding.layoutContactSupport.setOnClickListener { contactSupport() }
         binding.userAgreementLayout.setOnClickListener { openUserAgreement() }
 
         binding.arrowBack.setOnClickListener { finish() }
+    }
+
+    private fun applyTheme(isDark: Boolean) {
+        val mode = if (isDark) {
+            androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+        }
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(mode)
     }
 
     private fun shareApp() {

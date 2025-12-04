@@ -9,8 +9,11 @@ class App : Application() {
         super.onCreate()
         ServiceLocator.init(this)
         val isDark = ServiceLocator.themeInteractor.isDark()
-        AppCompatDelegate.setDefaultNightMode(
-            if (isDark) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        )
+        val mode = if (isDark) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 }

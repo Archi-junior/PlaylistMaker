@@ -63,7 +63,7 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         Glide.with(this)
-            .load(track.artworkUrl100)
+            .load(track.artworkUrl512)
             .placeholder(R.drawable.ic_image_placeholder_34)
             .into(binding.coverImage)
 
