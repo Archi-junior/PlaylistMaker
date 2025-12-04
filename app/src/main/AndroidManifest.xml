@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <queries>
         <intent>
             <action android:name="android.intent.action.SENDTO" />
@@ -13,6 +14,7 @@
             <data android:mimeType="text/plain" />
         </intent>
     </queries>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -24,8 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:targetApi="31">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,17 +36,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".SettingsActivity"
+            android:name=".presentation.settings.SettingsActivity"
             android:exported="true" />
+
         <activity
-            android:name=".SearchActivity"
+            android:name=".presentation.search.SearchActivity"
             android:exported="true" />
+
         <activity
-            android:name=".MediaLibraryActivity"
+            android:name=".presentation.mediaLibrary.MediaLibraryActivity"
             android:exported="true" />
+
         <activity
-            android:name=".AudioPlayerActivity"
+            android:name=".presentation.player.PlayerActivity"
             android:exported="true" />
+
     </application>
 </manifest>
