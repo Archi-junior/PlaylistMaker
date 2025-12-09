@@ -2,6 +2,9 @@ package com.practicum.playlistmaker.di
 
 import android.content.Context
 import com.google.gson.Gson
+import com.practicum.playlistmaker.player.data.PlayerRepositoryImpl
+import com.practicum.playlistmaker.player.domain.PlayerInteractor
+import com.practicum.playlistmaker.player.domain.PlayerRepository
 import com.practicum.playlistmaker.search.data.network.ItunesApiService
 import com.practicum.playlistmaker.search.data.repository.SearchHistoryRepositoryImpl
 import com.practicum.playlistmaker.settings.data.repository.ThemeRepositoryImpl
@@ -23,6 +26,9 @@ object ServiceLocator {
     private var _trackRepository: TrackRepository? = null
     private var _itunesApiService: ItunesApiService? = null
 
+    private var _playerRepository: PlayerRepository? = null
+    private var _playerInteractor: PlayerInteractor? = null
+
     fun init(appContext: Context) {
         val context = appContext.applicationContext
         val gson = Gson()
@@ -37,6 +43,8 @@ object ServiceLocator {
             .create(ItunesApiService::class.java)
 
         _trackRepository = TrackRepositoryImpl(_itunesApiService!!)
+        _playerRepository = PlayerRepositoryImpl()
+        _playerInteractor = PlayerInteractor(_playerRepository!!)
     }
 
     val themeInteractor: IThemeInteractor
@@ -47,4 +55,8 @@ object ServiceLocator {
 
     val searchInteractor: ISearchTracksInteractor
         get() = SearchTracksInteractor(_trackRepository!!)
+
+    fun providePlayerRepository(): PlayerRepository = _playerRepository!!
+
+    fun providePlayerInteractor(): PlayerInteractor = _playerInteractor!!
 }

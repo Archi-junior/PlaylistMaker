@@ -18,6 +18,7 @@ class PlayerViewModel(
 
     private val _state = MutableStateFlow<PlayerState>(PlayerState.Idle)
     val state: StateFlow<PlayerState> = _state
+    private var tickerJob: Job? = null
 
     private var timerJob: Job? = null
 
@@ -59,21 +60,26 @@ class PlayerViewModel(
     }
 
     private fun startTimer() {
-        timerJob?.cancel()
-        timerJob = viewModelScope.launch {
-            while (true) {
-                delay(300)
+        tickerJob?.cancel()
+        tickerJob = viewModelScope.launch {
+            while (interactor.isPlaying()) {
+                delay(TIMER_DELAY)
                 _state.value = PlayerState.Playing(interactor.getPositionMs())
             }
         }
     }
 
     private fun stopTimer() {
-        timerJob?.cancel()
+        tickerJob?.cancel()
+        tickerJob = null
     }
 
     override fun onCleared() {
         super.onCleared()
         interactor.release()
+    }
+
+    companion object{
+        const val TIMER_DELAY: Long = 300
     }
 }
