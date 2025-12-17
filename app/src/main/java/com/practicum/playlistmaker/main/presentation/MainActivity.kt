@@ -8,22 +8,18 @@ import com.practicum.playlistmaker.databinding.ActivityMainBinding
 import com.practicum.playlistmaker.medialibrary.presentation.MediaLibraryActivity
 import com.practicum.playlistmaker.search.presentation.SearchActivity
 import com.practicum.playlistmaker.settings.presentation.SettingsActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(
-            this,
-            MainViewModelFactory()
-        )[MainViewModel::class.java]
 
         bindListeners()
         observeViewModel()

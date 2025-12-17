@@ -12,12 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.search.domain.models.Track
-import com.practicum.playlistmaker.di.ServiceLocator
 import com.practicum.playlistmaker.player.presentation.PlayerActivity
 import com.practicum.playlistmaker.search.presentation.adapter.TrackAdapter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
@@ -25,12 +25,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var adapter: TrackAdapter
     private lateinit var historyAdapter: TrackAdapter
 
-    private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(
-            ServiceLocator.searchInteractor,
-            ServiceLocator.historyInteractor
-        )
-    }
+    private val viewModel: SearchViewModel by viewModel()
 
     private var searchJob: Job? = null
     private var searchQuery: String = ""

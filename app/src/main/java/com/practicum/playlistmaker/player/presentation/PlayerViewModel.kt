@@ -20,8 +20,6 @@ class PlayerViewModel(
     val state: StateFlow<PlayerState> = _state
     private var tickerJob: Job? = null
 
-    private var timerJob: Job? = null
-
     init {
         track.previewUrl?.let { url ->
             viewModelScope.launch {
@@ -50,12 +48,11 @@ class PlayerViewModel(
     private fun start() {
         interactor.play()
         startTimer()
-        _state.value = PlayerState.Playing(interactor.getPositionMs())
     }
 
     private fun pause() {
-        interactor.pause()
         stopTimer()
+        interactor.pause()
         _state.value = PlayerState.Paused(interactor.getPositionMs())
     }
 
