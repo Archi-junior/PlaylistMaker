@@ -26,12 +26,9 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var historyAdapter: TrackAdapter
 
     private val viewModel: SearchViewModel by viewModel()
-
-    private var searchJob: Job? = null
     private var searchQuery: String = ""
 
     companion object {
-        private const val SEARCH_TIMEOUT = 300L
         private const val SEARCH_QUERY_KEY = "SEARCH_QUERY_KEY"
     }
 
@@ -98,17 +95,7 @@ class SearchActivity : AppCompatActivity() {
         binding.searchEditText.addTextChangedListener { text ->
             val query = text?.toString()?.trim() ?: ""
             binding.clearButton.isVisible = query.isNotEmpty()
-            searchRunnable(query)
-        }
-    }
-
-    private fun searchRunnable(query: String) {
-        searchJob?.cancel()
-        searchJob = lifecycleScope.launch {
-            delay(SEARCH_TIMEOUT)
-            searchQuery = query
-            if (query.isNotEmpty()) performSearchDebounced(query)
-            else showHistoryIfEmptyQuery()
+            viewModel.searchTracks(query)
         }
     }
 

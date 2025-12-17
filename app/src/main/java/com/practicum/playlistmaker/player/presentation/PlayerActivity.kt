@@ -67,7 +67,7 @@ class PlayerActivity : AppCompatActivity() {
 
                     PlayerState.Finished -> {
                         binding.playButton.setImageResource(R.drawable.ic_play_image)
-                        binding.durationPlaceholder.text = getString(R.string.duration_placeholder_text)
+                        binding.durationPlaceholder.text = getString(R.string.duration_placeholder_null)
                     }
                 }
             }
