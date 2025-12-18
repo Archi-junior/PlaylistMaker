@@ -11,4 +11,6 @@
     <color name="blue">#3772E7</color>
     <color name="divider">#1F000000</color>
     <color name="icon_light">#FFFFFF</color>
+    <color name="switch_track_on">#9FBBF3</color>
+    <color name="switch_track_off">#DADADA</color>
 </resources>

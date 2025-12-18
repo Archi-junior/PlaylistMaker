@@ -21,11 +21,6 @@ class SearchViewModel(
     val state: StateFlow<SearchState> = _state
 
     private var searchJob: Job? = null
-
-    companion object {
-        const val SEARCH_DEBOUNCE_DELAY = 300L
-    }
-
     fun loadHistory() {
         val history = historyInteractor.getHistory()
         _state.update {
@@ -69,5 +64,9 @@ class SearchViewModel(
                 _state.value = SearchState.Error
             }
         }
+    }
+
+    companion object {
+        const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }

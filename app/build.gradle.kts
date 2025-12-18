@@ -39,6 +39,7 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.koin.android)
     implementation(libs.glide)
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.24")
     implementation(libs.retrofit)

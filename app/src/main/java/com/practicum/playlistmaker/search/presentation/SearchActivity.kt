@@ -12,12 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.search.domain.models.Track
-import com.practicum.playlistmaker.di.ServiceLocator
 import com.practicum.playlistmaker.player.presentation.PlayerActivity
 import com.practicum.playlistmaker.search.presentation.adapter.TrackAdapter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
@@ -25,18 +25,10 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var adapter: TrackAdapter
     private lateinit var historyAdapter: TrackAdapter
 
-    private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(
-            ServiceLocator.searchInteractor,
-            ServiceLocator.historyInteractor
-        )
-    }
-
-    private var searchJob: Job? = null
+    private val viewModel: SearchViewModel by viewModel()
     private var searchQuery: String = ""
 
     companion object {
-        private const val SEARCH_TIMEOUT = 300L
         private const val SEARCH_QUERY_KEY = "SEARCH_QUERY_KEY"
     }
 
@@ -103,17 +95,7 @@ class SearchActivity : AppCompatActivity() {
         binding.searchEditText.addTextChangedListener { text ->
             val query = text?.toString()?.trim() ?: ""
             binding.clearButton.isVisible = query.isNotEmpty()
-            searchRunnable(query)
-        }
-    }
-
-    private fun searchRunnable(query: String) {
-        searchJob?.cancel()
-        searchJob = lifecycleScope.launch {
-            delay(SEARCH_TIMEOUT)
-            searchQuery = query
-            if (query.isNotEmpty()) performSearchDebounced(query)
-            else showHistoryIfEmptyQuery()
+            viewModel.searchTracks(query)
         }
     }
 

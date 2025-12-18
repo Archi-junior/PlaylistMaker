@@ -1,19 +1,24 @@
 package com.practicum.playlistmaker.app
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
-import com.practicum.playlistmaker.di.ServiceLocator
+import com.practicum.playlistmaker.di.dataModule
+import com.practicum.playlistmaker.di.domainModule
+import com.practicum.playlistmaker.di.networkModule
+import com.practicum.playlistmaker.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        ServiceLocator.init(this)
-        val isDark = ServiceLocator.themeInteractor.isDark()
-        val mode = if (isDark) {
-            AppCompatDelegate.MODE_NIGHT_YES
-        } else {
-            AppCompatDelegate.MODE_NIGHT_NO
+        startKoin {
+            androidContext(this@App)
+            modules(
+                networkModule,
+                dataModule,
+                domainModule,
+                viewModelModule
+            )
         }
-        AppCompatDelegate.setDefaultNightMode(mode)
     }
 }

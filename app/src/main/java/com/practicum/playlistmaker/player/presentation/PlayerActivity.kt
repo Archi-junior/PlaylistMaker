@@ -2,25 +2,22 @@ package com.practicum.playlistmaker.player.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
-import com.practicum.playlistmaker.di.ServiceLocator
 import com.practicum.playlistmaker.player.domain.PlayerState
 import com.practicum.playlistmaker.search.domain.models.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class PlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerBinding
 
-    private val viewModel: PlayerViewModel by viewModels {
-        PlayerViewModelFactory(
-            ServiceLocator.providePlayerInteractor(),
-            intent.getParcelableExtra("track")!!
-        )
+    private val viewModel: PlayerViewModel by viewModel {
+        parametersOf(intent.getParcelableExtra<Track>("track")!!)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +67,7 @@ class PlayerActivity : AppCompatActivity() {
 
                     PlayerState.Finished -> {
                         binding.playButton.setImageResource(R.drawable.ic_play_image)
-                        binding.durationPlaceholder.text = getString(R.string.duration_placeholder_text)
+                        binding.durationPlaceholder.text = getString(R.string.duration_placeholder_null)
                     }
                 }
             }
