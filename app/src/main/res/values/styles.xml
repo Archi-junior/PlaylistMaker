@@ -66,6 +66,11 @@
         <item name="android:textSize">@dimen/info_text_size</item>
     </style>
 
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/ys_medium_500</item>
+    </style>
+
     <style name="InfoValueText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>

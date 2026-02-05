@@ -5,10 +5,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.Tab
 import com.google.android.material.tabs.TabLayoutMediator
 import com.practicum.playlistmaker.R
 
 class MediaLibraryActivity : AppCompatActivity() {
+    private var tabLayoutMediator: TabLayoutMediator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,15 +21,21 @@ class MediaLibraryActivity : AppCompatActivity() {
 
         viewPager.adapter = MediaLibraryPagerAdapter(this)
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> getString(R.string.favorites)
                 else -> getString(R.string.playlists)
             }
-        }.attach()
+        }.apply { attach() }
 
         findViewById<View>(R.id.arrow_back).setOnClickListener {
             finish()
         }
+    }
+
+    override fun onDestroy() {
+        tabLayoutMediator?.detach()
+        tabLayoutMediator = null
+        super.onDestroy()
     }
 }

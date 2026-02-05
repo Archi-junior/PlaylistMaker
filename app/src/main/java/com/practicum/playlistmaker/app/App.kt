@@ -11,6 +11,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class App : Application() {
+
     override fun onCreate() {
         super.onCreate()
         applyTheme()
@@ -24,12 +25,18 @@ class App : Application() {
             )
         }
     }
+
     private fun applyTheme() {
-        val prefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
-        val isDarkTheme = prefs.getBoolean("dark_theme", false)
+        val prefs = getSharedPreferences(THEME_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        val isDarkTheme = prefs.getBoolean(DARK_THEME_KEY, false)
 
         val mode = if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES
         else AppCompatDelegate.MODE_NIGHT_NO
         AppCompatDelegate.setDefaultNightMode(mode)
+    }
+
+    companion object {
+        const val THEME_PREFERENCES_NAME = "theme_prefs"
+        const val DARK_THEME_KEY = "dark_theme"
     }
 }

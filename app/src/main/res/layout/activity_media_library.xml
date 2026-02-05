@@ -43,7 +43,7 @@
             android:layout_marginStart="34dp"
             android:layout_marginEnd="33dp"
             android:layout_marginTop="13dp"
-            android:fontFamily="@font/ys_medium_500"
+            app:tabTextAppearance="@style/TabTextAppearance"
             app:tabBackground="?attr/colorSurfaceVariant"
             app:tabTextColor="?attr/colorOnPrimary"
             app:tabIndicatorColor="?attr/colorOnPrimary"/>
