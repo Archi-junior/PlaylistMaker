@@ -15,7 +15,12 @@
     <string name="progress_label">2/10</string>
     <string name="rating_question">Рейтинг этого фильма больше чем 9?</string>
     <string name="search_screen_title">Экран поиска</string>
-    <string name="media_library_screen_title">Экран медиатеки</string>
+    <string name="favorites">Избранные треки</string>
+    <string name="playlists">Плейлисты</string>
+    <string name="create_playlist">Новый плейлист</string>
+    <string name="media_library_screen_title">Медиатека</string>
+    <string name="media_library_favorites_placeholder_text">Ваша медиатека пуста</string>
+    <string name="media_library_playlists_placeholder_text">Вы не создали \nни одного плейлиста</string>
     <string name="share_app_text">https://practicum.yandex.ru/</string>
     <string name="share_chooser_title">Поделиться через</string>
     <string name="support_email">armandosov@yandex.com</string>

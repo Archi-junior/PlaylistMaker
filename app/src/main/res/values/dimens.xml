@@ -10,6 +10,7 @@
     <dimen name="margin_bottom_text">24dp</dimen>
     <dimen name="text_title">22sp</dimen>
     <dimen name="text_item">16sp</dimen>
+    <dimen name="text_info_large">19sp</dimen>
     <dimen name="icon_padding_top">10dp</dimen>
     <dimen name="icon_padding_bottom">11dp</dimen>
     <dimen name="icon_large">48dp</dimen>
