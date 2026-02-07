@@ -26,6 +26,7 @@ class SettingsViewModel(
 
     fun onThemeChanged(isDark: Boolean) {
         themeInteractor.saveTheme(isDark)
+        themeInteractor.setDark(isDark)
         _isDarkTheme.value = isDark
     }
 

@@ -2,32 +2,27 @@ package com.practicum.playlistmaker.settings.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
+import android.view.View
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
+import com.practicum.playlistmaker.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SettingsActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivitySettingsBinding
-
+class SettingsFragment : Fragment(R.layout.fragment_settings) {
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: SettingsViewModel by viewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentSettingsBinding.bind(view)
 
-        initUI()
+        setupListeners()
         observeViewModel()
     }
 
-    private fun initUI() {
-        binding.arrowBack.setOnClickListener { finish() }
-
+    private fun setupListeners() {
         binding.themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onThemeChanged(isChecked)
         }
@@ -46,26 +41,17 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        // Theme
-        viewModel.isDarkTheme.observe(this) { isDark ->
+        viewModel.isDarkTheme.observe(viewLifecycleOwner) { isDark ->
             binding.themeSwitcher.isChecked = isDark
-            applyTheme(isDark)
         }
 
-        // Events
-        viewModel.events.observe(this) { event ->
+        viewModel.events.observe(viewLifecycleOwner) { event ->
             when (event) {
                 SettingsEvent.ShareApp -> shareApp()
                 SettingsEvent.ContactSupport -> contactSupport()
                 is SettingsEvent.OpenUserAgreement -> openUserAgreement(event.url)
             }
         }
-    }
-
-    private fun applyTheme(isDark: Boolean) {
-        val mode = if (isDark) AppCompatDelegate.MODE_NIGHT_YES
-        else AppCompatDelegate.MODE_NIGHT_NO
-        AppCompatDelegate.setDefaultNightMode(mode)
     }
 
     private fun shareApp() {
@@ -83,15 +69,24 @@ class SettingsActivity : AppCompatActivity() {
             putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_subject))
             putExtra(Intent.EXTRA_TEXT, getString(R.string.support_body))
         }
-        if (intent.resolveActivity(packageManager) != null) {
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(intent)
         }
     }
 
     private fun openUserAgreement(url: String) {
         val browserIntent = Intent(Intent.ACTION_VIEW, url.toUri())
-        if (browserIntent.resolveActivity(packageManager) != null) {
+        if (browserIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(browserIntent)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    companion object {
+        fun newInstance() = SettingsFragment()
     }
 }
