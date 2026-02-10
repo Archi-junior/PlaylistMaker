@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class SearchViewModel(
     private val searchInteractor: ISearchTracksInteractor,
     private val historyInteractor: IHistoryInteractor
@@ -24,6 +25,22 @@ class SearchViewModel(
     private var clickJob: Job? = null
     private val _state = MutableStateFlow<SearchState>(SearchState.Idle)
     val state: StateFlow<SearchState> = _state
+
+    private val _searchQuery = MutableStateFlow("")
+
+    init {
+        viewModelScope.launch {
+            _searchQuery
+                .debounce(DEBOUNCE_DELAY_TIME)
+                .collect { query ->
+                    if (query.isNotEmpty()) {
+                        performSearch(query)
+                    } else {
+                        loadHistory()
+                    }
+                }
+        }
+    }
 
     private var searchJob: Job? = null
     fun loadHistory() {
@@ -50,12 +67,18 @@ class SearchViewModel(
         _state.value = SearchState.Idle
     }
 
-    @OptIn(FlowPreview::class)
-    fun searchTracks(query: String) {
+    fun performSearchImmediately(query: String) {
+        if (query.isNotEmpty()) {
+            performSearch(query)
+        } else {
+            loadHistory()
+        }
+    }
+
+    private fun performSearch(query: String) {
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             searchInteractor.searchTracks(query)
-                .debounce(SEARCH_DEBOUNCE_DELAY)
                 .onStart { _state.value = SearchState.Loading }
                 .catch {
                     _state.value = SearchState.Error
@@ -70,15 +93,20 @@ class SearchViewModel(
         }
     }
 
+    fun updateSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+
     fun onTrackClicked(track: Track) {
         clickJob?.cancel()
         clickJob = viewModelScope.launch {
-            delay(300)
+            delay(TRACK_CLICKED_DELAY_TIME)
             addToHistory(track)
         }
     }
 
     companion object {
-        const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val DEBOUNCE_DELAY_TIME = 500L
+        const val TRACK_CLICKED_DELAY_TIME = 300L
     }
 }

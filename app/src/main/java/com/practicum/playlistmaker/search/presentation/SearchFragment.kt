@@ -33,8 +33,6 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModel()
     private var searchQuery: String = ""
 
-    private var searchDebounceJob: Job? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,8 +54,24 @@ class SearchFragment : Fragment() {
             binding.searchEditText.setText(searchQuery)
         }
         when {
-            searchQuery.isNotEmpty() -> performSearchDebounced(searchQuery)
+            searchQuery.isNotEmpty() -> viewModel.performSearchImmediately(searchQuery)
             else -> viewModel.loadHistory()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val currentText = binding.searchEditText.text.toString().trim()
+        if (currentText.isNotEmpty()) {
+            binding.searchEditText.post {
+                when (viewModel.state.value) {
+                    is SearchState.Content, is SearchState.Loading -> {}
+                    else -> {
+                        viewModel.performSearchImmediately(currentText)
+                    }
+                }
+            }
         }
     }
 
@@ -103,12 +117,8 @@ class SearchFragment : Fragment() {
 
         binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchQuery = binding.searchEditText.text.toString().trim()
-                if (searchQuery.isNotEmpty()) {
-                    performSearchDebounced(searchQuery)
-                } else {
-                    showHistoryIfEmptyQuery()
-                }
+                val query = binding.searchEditText.text.toString().trim()
+                viewModel.performSearchImmediately(query)
                 hideKeyboard()
                 true
             } else {
@@ -118,20 +128,9 @@ class SearchFragment : Fragment() {
 
         binding.searchEditText.addTextChangedListener { text ->
             val query = text?.toString()?.trim() ?: ""
-            searchQuery = query
             binding.clearButton.isVisible = query.isNotEmpty()
-            searchDebounceJob?.cancel()
 
-            if (query.isNotEmpty()) {
-                searchDebounceJob = lifecycleScope.launch {
-                    delay(DEBOUNCE_DELAY_TIME)
-                    if (query == binding.searchEditText.text.toString().trim()) {
-                        viewModel.searchTracks(query)
-                    }
-                }
-            } else {
-                showHistoryIfEmptyQuery()
-            }
+            viewModel.updateSearchQuery(query)
         }
     }
 
@@ -202,13 +201,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun performSearchDebounced(query: String) {
-        searchDebounceJob?.cancel()
-        searchDebounceJob = lifecycleScope.launch {
-            viewModel.searchTracks(query)
-        }
-    }
-
     private fun openPlayer(track: Track) {
         val bundle = Bundle().apply {
             putParcelable("track", track)
@@ -223,7 +215,6 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
-        private const val DEBOUNCE_DELAY_TIME = 500L
         private const val SEARCH_QUERY_KEY = "SEARCH_QUERY_KEY"
         fun newInstance() = SearchFragment()
     }
