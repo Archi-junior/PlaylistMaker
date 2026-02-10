@@ -61,7 +61,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         startActivity(Intent.createChooser(intent, getString(R.string.share_chooser_title)))
     }
-
     private fun contactSupport() {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = "mailto:".toUri()
@@ -69,9 +68,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_subject))
             putExtra(Intent.EXTRA_TEXT, getString(R.string.support_body))
         }
-        if (intent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivity(intent)
-        }
+        startActivity(intent)
     }
 
     private fun openUserAgreement(url: String) {

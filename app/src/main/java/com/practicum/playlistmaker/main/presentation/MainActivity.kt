@@ -13,7 +13,6 @@ import com.practicum.playlistmaker.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -48,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             val rect = Rect()
             rootView.getWindowVisibleDisplayFrame(rect)
             val screenHeight = rootView.rootView.height
-
             val keyboardHeight = screenHeight - rect.bottom
 
             if (keyboardHeight > screenHeight * 0.15) {
@@ -64,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateToolbar(destinationId: Int) {
+    private fun updateToolbar(destinationId: Int) { //TODO: Перенести во фрагменты в будущем
         when (destinationId) {
             R.id.searchFragment -> {
                 binding.titleText.visibility = View.VISIBLE
@@ -83,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.playerFragment -> {
                 binding.titleText.visibility = View.GONE
-                binding.backButton.visibility = View.VISIBLE  // Добавить эту строку
+                binding.backButton.visibility = View.VISIBLE
             }
         }
     }

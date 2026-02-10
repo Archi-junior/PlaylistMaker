@@ -17,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentSearchBinding
-import com.practicum.playlistmaker.player.presentation.PlayerFragment
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.presentation.adapter.TrackAdapter
 import kotlinx.coroutines.Job
@@ -55,20 +54,10 @@ class SearchFragment : Fragment() {
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(SEARCH_QUERY_KEY, "")
             binding.searchEditText.setText(searchQuery)
-            if (searchQuery.isNotEmpty()) {
-                performSearchDebounced(searchQuery, true)
-            } else {
-                viewModel.loadHistory()
-            }
-        } else {
-            viewModel.loadHistory()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (binding.searchEditText.text.isEmpty()) {
-            viewModel.loadHistory()
+        when {
+            searchQuery.isNotEmpty() -> performSearchDebounced(searchQuery, true)
+            else -> viewModel.loadHistory()
         }
     }
 
@@ -219,7 +208,7 @@ class SearchFragment : Fragment() {
             if (force) {
                 viewModel.searchTracks(query, true)
             } else {
-                delay(500)
+                delay(DEBOUNCE_DELAY_TIME)
                 viewModel.searchTracks(query)
             }
         }
@@ -239,6 +228,7 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
+        private const val DEBOUNCE_DELAY_TIME = 500L
         private const val SEARCH_QUERY_KEY = "SEARCH_QUERY_KEY"
         fun newInstance() = SearchFragment()
     }
