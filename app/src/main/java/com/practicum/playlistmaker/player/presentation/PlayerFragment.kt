@@ -2,42 +2,39 @@ package com.practicum.playlistmaker.player.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.player.domain.PlayerState
 import com.practicum.playlistmaker.search.domain.models.Track
+import com.practicum.playlistmaker.settings.presentation.SettingsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class PlayerActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityPlayerBinding
-
+class PlayerFragment : Fragment(R.layout.fragment_player) {
+    private var _binding: FragmentPlayerBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: PlayerViewModel by viewModel {
-        parametersOf(intent.getParcelableExtra<Track>("track")!!)
+        parametersOf(requireArguments().getParcelable<Track>("track")!!)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentPlayerBinding.bind(view)
 
-        binding = ActivityPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        bindTrack(viewModel.track)
+        setupListeners()
+        observeViewModel()
+    }
 
-        val track = viewModel.track
-        bindTrack(track)
-
-        binding.backButton.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-
+    private fun setupListeners() {
         binding.playButton.setOnClickListener {
             viewModel.onPlayClicked()
         }
-
-        observeViewModel()
     }
 
     private fun observeViewModel() {
@@ -112,5 +109,17 @@ class PlayerActivity : AppCompatActivity() {
         val min = totalSec / 60
         val sec = totalSec % 60
         return String.format("%02d:%02d", min, sec)
+    }
+
+    companion object {
+        private const val ARG_TRACK = "track"
+
+        fun newInstance(track: Track): PlayerFragment {
+            return PlayerFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_TRACK, track)
+                }
+            }
+        }
     }
 }

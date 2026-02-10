@@ -5,14 +5,14 @@
     import androidx.viewpager2.adapter.FragmentStateAdapter
 
     class MediaLibraryPagerAdapter(
-        activity: FragmentActivity
-    ) : FragmentStateAdapter(activity) {
+        fragment: Fragment
+    ) : FragmentStateAdapter(fragment) {
 
         override fun getItemCount() = 2
 
         override fun createFragment(position: Int): Fragment =
             when (position) {
-                0 -> FavoritesFragment.newInstance()
-                else -> PlaylistsFragment.newInstance()
+                0 -> PlaylistsFragment.newInstance()
+                else -> FavoritesFragment.newInstance()
             }
     }

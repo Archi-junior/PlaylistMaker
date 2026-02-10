@@ -43,6 +43,13 @@
         <item name="drawableTint">?attr/colorSecondary</item>
     </style>
 
+    <style name="BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_selector</item>
+        <item name="itemTextColor">@color/bottom_nav_selector</item>
+        <item name="android:background">?attr/colorSurfaceVariant</item>
+        <item name="itemHorizontalTranslationEnabled">false</item>
+    </style>
+
     <style name="RoundedCorner8">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>

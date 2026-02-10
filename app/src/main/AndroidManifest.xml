@@ -37,21 +37,5 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".settings.presentation.SettingsActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".search.presentation.SearchActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".medialibrary.presentation.MediaLibraryActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".player.presentation.PlayerActivity"
-            android:exported="true" />
-
     </application>
 </manifest>

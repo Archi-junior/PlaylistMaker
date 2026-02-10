@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/vector_search"
+        android:title="@string/search_header"
+        android:checked="true"/>
+
+    <item
+        android:id="@+id/mediaLibraryFragment"
+        android:icon="@drawable/vector_music"
+        android:title="@string/media_library_screen_title" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/vector_settings"
+        android:title="@string/settings_title" />
+</menu>

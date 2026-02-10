@@ -1,56 +1,92 @@
 package com.practicum.playlistmaker.main.presentation
 
-import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityMainBinding
-import com.practicum.playlistmaker.medialibrary.presentation.MediaLibraryActivity
-import com.practicum.playlistmaker.search.presentation.SearchActivity
-import com.practicum.playlistmaker.settings.presentation.SettingsActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModel()
-
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        bindListeners()
-        observeViewModel()
+        setupNavigation()
     }
 
-    private fun bindListeners() {
-        binding.btnSearch.setOnClickListener {
-            viewModel.onSearchClicked()
+    private fun setupNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        binding.bottomNavigationView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            updateToolbar(destination.id)
+            when (destination.id) {
+                R.id.playerFragment -> binding.bottomNavigationView.visibility = View.GONE
+                else -> binding.bottomNavigationView.visibility = View.VISIBLE
+            }
         }
-        binding.btnLibrary.setOnClickListener {
-            viewModel.onLibraryClicked()
+        binding.backButton.setOnClickListener {
+            navController.navigateUp()
         }
-        binding.btnSettings.setOnClickListener {
-            viewModel.onSettingsClicked()
-        }
+        setupKeyboardVisibilityListener()
     }
 
-    private fun observeViewModel() {
-        viewModel.events.observe(this) { event ->
-            event?.getContentIfNotHandled()?.let { action ->
-                when (action) {
-                    MainUiEvent.OpenSearch ->
-                        startActivity(Intent(this, SearchActivity::class.java))
+    private fun setupKeyboardVisibilityListener() {
+        val rootView = findViewById<View>(android.R.id.content)
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            rootView.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = rootView.rootView.height
+            val keyboardHeight = screenHeight - rect.bottom
 
-                    MainUiEvent.OpenLibrary ->
-                        startActivity(Intent(this, MediaLibraryActivity::class.java))
-
-                    MainUiEvent.OpenSettings ->
-                        startActivity(Intent(this, SettingsActivity::class.java))
+            if (keyboardHeight > screenHeight * 0.15) {
+                binding.bottomNavigationView.visibility = View.GONE
+                binding.bottomDivider.visibility = View.GONE
+            } else {
+                val currentDestination = navController.currentDestination?.id
+                if (currentDestination != R.id.playerFragment) {
+                    binding.bottomNavigationView.visibility = View.VISIBLE
+                    binding.bottomDivider.visibility = View.VISIBLE
                 }
             }
         }
+    }
+
+    private fun updateToolbar(destinationId: Int) { //TODO: Перенести во фрагменты в будущем
+        when (destinationId) {
+            R.id.searchFragment -> {
+                binding.titleText.visibility = View.VISIBLE
+                binding.titleText.text = getString(R.string.search_header)
+                binding.backButton.visibility = View.GONE
+            }
+            R.id.mediaLibraryFragment -> {
+                binding.titleText.visibility = View.VISIBLE
+                binding.titleText.text = getString(R.string.media_library_screen_title)
+                binding.backButton.visibility = View.GONE
+            }
+            R.id.settingsFragment -> {
+                binding.titleText.visibility = View.VISIBLE
+                binding.titleText.text = getString(R.string.settings_title)
+                binding.backButton.visibility = View.GONE
+            }
+            R.id.playerFragment -> {
+                binding.titleText.visibility = View.GONE
+                binding.backButton.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
