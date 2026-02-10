@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
             binding.searchEditText.setText(searchQuery)
         }
         when {
-            searchQuery.isNotEmpty() -> performSearchDebounced(searchQuery, true)
+            searchQuery.isNotEmpty() -> performSearchDebounced(searchQuery)
             else -> viewModel.loadHistory()
         }
     }
@@ -73,7 +73,7 @@ class SearchFragment : Fragment() {
 
     private fun setupRecyclerViews() {
         adapter = TrackAdapter { track ->
-            viewModel.addToHistoryWithoutEmit(track)
+            viewModel.onTrackClicked(track)
             binding.tracksRecyclerView.post {
                 openPlayer(track)
             }
@@ -105,7 +105,7 @@ class SearchFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchQuery = binding.searchEditText.text.toString().trim()
                 if (searchQuery.isNotEmpty()) {
-                    performSearchDebounced(searchQuery, true)
+                    performSearchDebounced(searchQuery)
                 } else {
                     showHistoryIfEmptyQuery()
                 }
@@ -124,7 +124,7 @@ class SearchFragment : Fragment() {
 
             if (query.isNotEmpty()) {
                 searchDebounceJob = lifecycleScope.launch {
-                    delay(500)
+                    delay(DEBOUNCE_DELAY_TIME)
                     if (query == binding.searchEditText.text.toString().trim()) {
                         viewModel.searchTracks(query)
                     }
@@ -202,15 +202,10 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun performSearchDebounced(query: String, force: Boolean = false) {
+    private fun performSearchDebounced(query: String) {
         searchDebounceJob?.cancel()
         searchDebounceJob = lifecycleScope.launch {
-            if (force) {
-                viewModel.searchTracks(query, true)
-            } else {
-                delay(DEBOUNCE_DELAY_TIME)
-                viewModel.searchTracks(query)
-            }
+            viewModel.searchTracks(query)
         }
     }
 

@@ -5,10 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.search.domain.interactors.IHistoryInteractor
 import com.practicum.playlistmaker.search.domain.interactors.ISearchTracksInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -17,6 +21,7 @@ class SearchViewModel(
     private val historyInteractor: IHistoryInteractor
 ) : ViewModel() {
 
+    private var clickJob: Job? = null
     private val _state = MutableStateFlow<SearchState>(SearchState.Idle)
     val state: StateFlow<SearchState> = _state
 
@@ -45,24 +50,31 @@ class SearchViewModel(
         _state.value = SearchState.Idle
     }
 
-    fun searchTracks(query: String, force: Boolean = false) {
+    @OptIn(FlowPreview::class)
+    fun searchTracks(query: String) {
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            if (!force) delay(SEARCH_DEBOUNCE_DELAY)
+            searchInteractor.searchTracks(query)
+                .debounce(SEARCH_DEBOUNCE_DELAY)
+                .onStart { _state.value = SearchState.Loading }
+                .catch {
+                    _state.value = SearchState.Error
+                }
+                .collect { tracks ->
+                    _state.value = if (tracks.isEmpty()) {
+                        SearchState.Empty
+                    } else {
+                        SearchState.Content(tracks)
+                    }
+                }
+        }
+    }
 
-            if (query.isBlank()) {
-                loadHistory()
-                return@launch
-            }
-
-            _state.value = SearchState.Loading
-
-            try {
-                val tracks = searchInteractor.searchTracks(query)
-                _state.value = if (tracks.isEmpty()) SearchState.Empty else SearchState.Content(tracks)
-            } catch (e: Exception) {
-                _state.value = SearchState.Error
-            }
+    fun onTrackClicked(track: Track) {
+        clickJob?.cancel()
+        clickJob = viewModelScope.launch {
+            delay(300)
+            addToHistory(track)
         }
     }
 

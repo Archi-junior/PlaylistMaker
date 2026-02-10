@@ -7,8 +7,12 @@ import com.practicum.playlistmaker.player.domain.PlayerState
 import com.practicum.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
@@ -20,6 +24,16 @@ class PlayerViewModel(
     val state: StateFlow<PlayerState> = _state
     private var tickerJob: Job? = null
 
+    private fun createTimerFlow(): Flow<Int> = flow {
+        while (interactor.isPlaying()) {
+            emit(interactor.getPositionMs())
+            delay(TIMER_DELAY)
+        }
+        if (!interactor.isPlaying() && _state.value is PlayerState.Finished) {
+            emit(0)
+        }
+    }
+
     init {
         track.previewUrl?.let { url ->
             viewModelScope.launch {
@@ -29,6 +43,7 @@ class PlayerViewModel(
                     onFinished = {
                         _state.value = PlayerState.Finished
                         stopTimer()
+                        _state.value = PlayerState.Playing(0)
                     }
                 )
             }
@@ -58,12 +73,11 @@ class PlayerViewModel(
 
     private fun startTimer() {
         tickerJob?.cancel()
-        tickerJob = viewModelScope.launch {
-            while (interactor.isPlaying()) {
-                delay(TIMER_DELAY)
-                _state.value = PlayerState.Playing(interactor.getPositionMs())
+        tickerJob = createTimerFlow()
+            .onEach { positionMs ->
+                _state.value = PlayerState.Playing(positionMs)
             }
-        }
+            .launchIn(viewModelScope)
     }
 
     private fun stopTimer() {
