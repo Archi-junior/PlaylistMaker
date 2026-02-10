@@ -5,20 +5,42 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.search.domain.interactors.IHistoryInteractor
 import com.practicum.playlistmaker.search.domain.interactors.ISearchTracksInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class SearchViewModel(
     private val searchInteractor: ISearchTracksInteractor,
     private val historyInteractor: IHistoryInteractor
 ) : ViewModel() {
 
+    private var clickJob: Job? = null
     private val _state = MutableStateFlow<SearchState>(SearchState.Idle)
     val state: StateFlow<SearchState> = _state
+
+    private val _searchQuery = MutableStateFlow("")
+
+    init {
+        viewModelScope.launch {
+            _searchQuery
+                .debounce(DEBOUNCE_DELAY_TIME)
+                .collect { query ->
+                    if (query.isNotEmpty()) {
+                        performSearch(query)
+                    } else {
+                        loadHistory()
+                    }
+                }
+        }
+    }
 
     private var searchJob: Job? = null
     fun loadHistory() {
@@ -45,28 +67,46 @@ class SearchViewModel(
         _state.value = SearchState.Idle
     }
 
-    fun searchTracks(query: String, force: Boolean = false) {
+    fun performSearchImmediately(query: String) {
+        if (query.isNotEmpty()) {
+            performSearch(query)
+        } else {
+            loadHistory()
+        }
+    }
+
+    private fun performSearch(query: String) {
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            if (!force) delay(SEARCH_DEBOUNCE_DELAY)
+            searchInteractor.searchTracks(query)
+                .onStart { _state.value = SearchState.Loading }
+                .catch {
+                    _state.value = SearchState.Error
+                }
+                .collect { tracks ->
+                    _state.value = if (tracks.isEmpty()) {
+                        SearchState.Empty
+                    } else {
+                        SearchState.Content(tracks)
+                    }
+                }
+        }
+    }
 
-            if (query.isBlank()) {
-                loadHistory()
-                return@launch
-            }
+    fun updateSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
 
-            _state.value = SearchState.Loading
-
-            try {
-                val tracks = searchInteractor.searchTracks(query)
-                _state.value = if (tracks.isEmpty()) SearchState.Empty else SearchState.Content(tracks)
-            } catch (e: Exception) {
-                _state.value = SearchState.Error
-            }
+    fun onTrackClicked(track: Track) {
+        clickJob?.cancel()
+        clickJob = viewModelScope.launch {
+            delay(TRACK_CLICKED_DELAY_TIME)
+            addToHistory(track)
         }
     }
 
     companion object {
-        const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val DEBOUNCE_DELAY_TIME = 500L
+        const val TRACK_CLICKED_DELAY_TIME = 300L
     }
 }
