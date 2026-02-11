@@ -2,16 +2,13 @@ package com.practicum.playlistmaker.player.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.player.domain.PlayerState
 import com.practicum.playlistmaker.search.domain.models.Track
-import com.practicum.playlistmaker.settings.presentation.SettingsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -42,8 +39,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
     private fun observeViewModel() {
         lifecycleScope.launchWhenStarted {
-            viewModel.state.collect { state ->
-                when (state) {
+            viewModel.state.collect { screenState ->
+                when (screenState.playerState) {
 
                     PlayerState.Idle -> {
                         binding.playButton.isEnabled = false
@@ -59,7 +56,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
                     is PlayerState.Playing -> {
                         binding.playButton.setImageResource(R.drawable.ic_pause_image)
-                        binding.durationPlaceholder.text = formatTime(state.positionMs.toLong())
+                        binding.durationPlaceholder.text = formatTime(screenState.playerState.positionMs.toLong())
                     }
 
                     is PlayerState.Paused -> {
@@ -72,18 +69,18 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                             getString(R.string.duration_placeholder_null)
                     }
                 }
+                updateFavoriteButton(screenState.isFavorite)
             }
         }
-        lifecycleScope.launchWhenStarted {
-            viewModel.isFavorite.collect { isFavorite ->
-                val drawable = if (isFavorite) {
-                    R.drawable.ic_favorite_border_filled
-                } else {
-                    R.drawable.ic_favorite_border
-                }
-                binding.favoriteButton.setImageResource(drawable)
-            }
+    }
+
+    private fun updateFavoriteButton(isFavorite: Boolean) {
+        val drawable = if (isFavorite) {
+            R.drawable.ic_favorite_border_filled
+        } else {
+            R.drawable.ic_favorite_border
         }
+        binding.favoriteButton.setImageResource(drawable)
     }
 
     private fun bindTrack(track: Track) {
