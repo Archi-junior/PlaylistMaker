@@ -2,8 +2,9 @@ package com.practicum.playlistmaker.player.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.player.domain.PlayerInteractor
+import com.practicum.playlistmaker.player.domain.interactors.PlayerInteractor
 import com.practicum.playlistmaker.player.domain.PlayerState
+import com.practicum.playlistmaker.player.domain.interactors.IFavoritesInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -17,12 +18,15 @@ import kotlinx.coroutines.launch
 
 class PlayerViewModel(
     private val interactor: PlayerInteractor,
+    private val favoritesInteractor: IFavoritesInteractor,
     val track: Track
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<PlayerState>(PlayerState.Idle)
     val state: StateFlow<PlayerState> = _state
     private var tickerJob: Job? = null
+    private val _isFavorite = MutableStateFlow(track.isFavorite)
+    val isFavorite: StateFlow<Boolean> = _isFavorite
 
     private fun createTimerFlow(): Flow<Int> = flow {
         while (interactor.isPlaying()) {
@@ -37,6 +41,7 @@ class PlayerViewModel(
     init {
         track.previewUrl?.let { url ->
             viewModelScope.launch {
+                _isFavorite.value = favoritesInteractor.isFavorite(track.trackId)
                 interactor.prepare(
                     url = url,
                     onPrepared = { _state.value = PlayerState.Prepared },
@@ -47,6 +52,14 @@ class PlayerViewModel(
                     }
                 )
             }
+        }
+    }
+
+    fun onFavoriteClicked() {
+        viewModelScope.launch {
+            val newFavoriteState = favoritesInteractor.toggleFavorite(track)
+            _isFavorite.value = newFavoriteState
+            track.isFavorite = newFavoriteState
         }
     }
 

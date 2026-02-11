@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.player.domain
+package com.practicum.playlistmaker.player.domain.repository
 
 interface PlayerRepository {
     suspend fun prepare(url: String, onPrepared: () -> Unit, onFinished: () -> Unit)

@@ -1,4 +1,6 @@
-package com.practicum.playlistmaker.player.domain
+package com.practicum.playlistmaker.player.domain.interactors
+
+import com.practicum.playlistmaker.player.domain.repository.PlayerRepository
 
 class PlayerInteractor(private val repository: PlayerRepository) {
 

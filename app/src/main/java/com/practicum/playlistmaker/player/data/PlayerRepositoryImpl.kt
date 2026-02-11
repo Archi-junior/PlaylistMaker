@@ -1,7 +1,7 @@
 package com.practicum.playlistmaker.player.data
 
 import android.media.MediaPlayer
-import com.practicum.playlistmaker.player.domain.PlayerRepository
+import com.practicum.playlistmaker.player.domain.repository.PlayerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

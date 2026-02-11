@@ -35,6 +35,9 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         binding.playButton.setOnClickListener {
             viewModel.onPlayClicked()
         }
+        binding.favoriteButton.setOnClickListener {
+            viewModel.onFavoriteClicked()
+        }
     }
 
     private fun observeViewModel() {
@@ -45,7 +48,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                     PlayerState.Idle -> {
                         binding.playButton.isEnabled = false
                         binding.playButton.setImageResource(R.drawable.ic_play_image)
-                        binding.durationPlaceholder.text = getString(R.string.duration_placeholder_text)
+                        binding.durationPlaceholder.text =
+                            getString(R.string.duration_placeholder_text)
                     }
 
                     PlayerState.Prepared -> {
@@ -64,9 +68,20 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
                     PlayerState.Finished -> {
                         binding.playButton.setImageResource(R.drawable.ic_play_image)
-                        binding.durationPlaceholder.text = getString(R.string.duration_placeholder_null)
+                        binding.durationPlaceholder.text =
+                            getString(R.string.duration_placeholder_null)
                     }
                 }
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            viewModel.isFavorite.collect { isFavorite ->
+                val drawable = if (isFavorite) {
+                    R.drawable.ic_favorite_border_filled
+                } else {
+                    R.drawable.ic_favorite_border
+                }
+                binding.favoriteButton.setImageResource(drawable)
             }
         }
     }

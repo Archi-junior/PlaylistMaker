@@ -44,14 +44,16 @@ class SearchViewModel(
 
     private var searchJob: Job? = null
     fun loadHistory() {
-        val history = historyInteractor.getHistory()
-        _state.update {
-            if (history.isEmpty()) SearchState.Idle
-            else SearchState.History(history)
+        viewModelScope.launch {
+            val history = historyInteractor.getHistory()
+            _state.update {
+                if (history.isEmpty()) SearchState.Idle
+                else SearchState.History(history)
+            }
         }
     }
 
-    fun getHistorySync(): List<Track> = historyInteractor.getHistory()
+    suspend fun getHistorySync(): List<Track> = historyInteractor.getHistory()
 
     fun addToHistory(track: Track) {
         historyInteractor.addTrack(track)
@@ -59,12 +61,16 @@ class SearchViewModel(
     }
 
     fun addToHistoryWithoutEmit(track: Track) {
-        historyInteractor.addTrack(track)
+        viewModelScope.launch {
+            historyInteractor.addTrack(track)
+        }
     }
 
     fun clearHistory() {
-        historyInteractor.clearHistory()
-        _state.value = SearchState.Idle
+        viewModelScope.launch {
+            historyInteractor.clearHistory()
+            _state.value = SearchState.Idle
+        }
     }
 
     fun performSearchImmediately(query: String) {

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.playlistmaker.R
@@ -53,9 +54,12 @@ class SearchFragment : Fragment() {
             searchQuery = savedInstanceState.getString(SEARCH_QUERY_KEY, "")
             binding.searchEditText.setText(searchQuery)
         }
-        when {
-            searchQuery.isNotEmpty() -> viewModel.performSearchImmediately(searchQuery)
-            else -> viewModel.loadHistory()
+        lifecycleScope.launch {
+            if (searchQuery.isNotEmpty()) {
+                viewModel.performSearchImmediately(searchQuery)
+            } else {
+                viewModel.loadHistory()
+            }
         }
     }
 
@@ -171,9 +175,11 @@ class SearchFragment : Fragment() {
                 binding.placeholderLayout.isVisible = true
             }
             is SearchState.Idle -> {
-                val history = viewModel.getHistorySync()
-                if (history.isNotEmpty()) {
-                    showHistory(history)
+                lifecycleScope.launch {
+                    val history = viewModel.getHistorySync()
+                    if (history.isNotEmpty()) {
+                        showHistory(history)
+                    }
                 }
             }
         }
@@ -195,9 +201,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun showHistoryIfEmptyQuery() {
-        if (binding.searchEditText.text.isEmpty()) {
-            val history = viewModel.getHistorySync()
-            showHistory(history)
+        lifecycleScope.launch {
+            if (binding.searchEditText.text.isEmpty()) {
+                val history = viewModel.getHistorySync()
+                showHistory(history)
+            }
         }
     }
 
