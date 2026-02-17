@@ -40,8 +40,7 @@
             android:fontFamily="@font/ys_medium_500"
             android:text="@string/search_header"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textSize="22sp"/>
 
     </LinearLayout>
 

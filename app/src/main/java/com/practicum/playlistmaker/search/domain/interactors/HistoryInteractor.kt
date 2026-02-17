@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.search.domain.interactors
 
-import com.practicum.playlistmaker.player.domain.repository.FavoriteTracksRepository
+import com.practicum.playlistmaker.mediaLibrary.domain.repository.FavoriteTracksRepository
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.domain.repository.SearchHistoryRepository
 

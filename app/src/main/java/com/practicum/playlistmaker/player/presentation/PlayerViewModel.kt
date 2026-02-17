@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.player.domain.interactors.PlayerInteractor
 import com.practicum.playlistmaker.player.domain.PlayerState
-import com.practicum.playlistmaker.player.domain.interactors.IFavoritesInteractor
+import com.practicum.playlistmaker.mediaLibrary.domain.interactors.IFavoritesInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

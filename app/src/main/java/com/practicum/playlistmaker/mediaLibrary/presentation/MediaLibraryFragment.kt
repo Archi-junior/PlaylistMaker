@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.medialibrary.presentation
+package com.practicum.playlistmaker.mediaLibrary.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentMediaLibraryBinding
-import com.practicum.playlistmaker.settings.presentation.SettingsFragment
 
 class MediaLibraryFragment : Fragment(R.layout.fragment_media_library) {
     private var _binding: FragmentMediaLibraryBinding? = null

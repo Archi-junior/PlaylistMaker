@@ -83,6 +83,10 @@ class MainActivity : AppCompatActivity() {
                 binding.titleText.visibility = View.GONE
                 binding.backButton.visibility = View.VISIBLE
             }
+            R.id.newPlaylistFragment -> {
+                binding.titleText.visibility = View.GONE
+                binding.backButton.visibility = View.GONE
+            }
         }
     }
 

@@ -22,4 +22,6 @@
     <dimen name="info_row_padding_horizontal">16dp</dimen>
     <dimen name="info_row_padding_vertical">8dp</dimen>
     <dimen name="info_text_size">13sp</dimen>
+    <dimen name="cover_corner_radius">8dp</dimen>
+    <dimen name="playlist_cover_radius">4dp</dimen>
 </resources>

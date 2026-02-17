@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.practicum.playlistmaker.di.dataModule
 import com.practicum.playlistmaker.di.domainModule
+import com.practicum.playlistmaker.di.interactorModule
 import com.practicum.playlistmaker.di.networkModule
 import com.practicum.playlistmaker.di.repositoryModule
 import com.practicum.playlistmaker.di.viewModelModule
@@ -23,7 +24,8 @@ class App : Application() {
                 dataModule,
                 domainModule,
                 viewModelModule,
-                repositoryModule
+                repositoryModule,
+                interactorModule
             )
         }
     }

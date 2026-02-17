@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.player.data.db
+package com.practicum.playlistmaker.mediaLibrary.data.db
 
 import androidx.room.Database
 import androidx.room.Room
@@ -6,12 +6,13 @@ import androidx.room.RoomDatabase
 import android.content.Context
 
 @Database(
-    entities = [FavoriteTrackEntity::class],
-    version = 1,
+    entities = [FavoriteTrackEntity::class, PlaylistEntity::class],
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun favoriteTracksDao(): FavoriteTracksDao
+    abstract fun playlistDao(): PlaylistDao
 
     companion object {
         private const val DATABASE_NAME = "playlist_maker.db"
@@ -21,7 +22,8 @@ abstract class AppDatabase : RoomDatabase() {
                 context,
                 AppDatabase::class.java,
                 DATABASE_NAME
-            ).build()
+            ).fallbackToDestructiveMigration()
+            .build()
         }
     }
 }

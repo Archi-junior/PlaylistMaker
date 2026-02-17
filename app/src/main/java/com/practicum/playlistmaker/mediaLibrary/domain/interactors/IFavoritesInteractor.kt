@@ -1,7 +1,7 @@
-package com.practicum.playlistmaker.player.domain.interactors
+package com.practicum.playlistmaker.mediaLibrary.domain.interactors
 
 import com.practicum.playlistmaker.search.domain.models.Track
-import com.practicum.playlistmaker.player.domain.repository.FavoriteTracksRepository
+import com.practicum.playlistmaker.mediaLibrary.domain.repository.FavoriteTracksRepository
 import kotlinx.coroutines.flow.Flow
 
 interface IFavoritesInteractor {
