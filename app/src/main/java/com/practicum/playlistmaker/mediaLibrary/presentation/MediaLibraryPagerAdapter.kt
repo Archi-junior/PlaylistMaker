@@ -11,7 +11,7 @@
 
         override fun createFragment(position: Int): Fragment =
             when (position) {
-                0 -> PlaylistsFragment.newInstance()
-                else -> FavoritesFragment.newInstance()
+                0 -> FavoritesFragment.newInstance()
+                else -> PlaylistsFragment.newInstance()
             }
     }

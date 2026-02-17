@@ -2,6 +2,7 @@ package com.practicum.playlistmaker.mediaLibrary.data.repository
 
 import com.practicum.playlistmaker.mediaLibrary.data.db.AppDatabase
 import com.practicum.playlistmaker.mediaLibrary.data.db.PlaylistEntity
+import com.practicum.playlistmaker.mediaLibrary.data.db.PlaylistTrackEntity
 import com.practicum.playlistmaker.mediaLibrary.domain.model.Playlist
 import com.practicum.playlistmaker.mediaLibrary.domain.repository.PlaylistRepository
 import kotlinx.coroutines.flow.Flow
@@ -63,28 +64,31 @@ class PlaylistRepositoryImpl(
 
     override suspend fun addTrackToPlaylist(playlistId: Long, trackId: Long): Boolean {
         return try {
-            val playlist = db.playlistDao().getPlaylistById(playlistId) ?: return false
+            val isTrackExists = db.playlistTrackDao().isTrackInPlaylist(playlistId, trackId)
 
-            if (playlist.trackIds.contains(trackId)) {
-                return false
+            if (!isTrackExists) {
+                val playlistTrack = PlaylistTrackEntity(
+                    playlistId = playlistId,
+                    trackId = trackId
+                )
+                db.playlistTrackDao().insert(playlistTrack)
+
+                val newCount = db.playlistTrackDao().getTracksCount(playlistId)
+                db.playlistDao().updateTracksCount(playlistId, newCount)
+
+                true
+            } else {
+                false
             }
-
-            val updatedTrackIds = playlist.trackIds.toMutableList().apply { add(trackId) }
-            val updatedPlaylist = playlist.copy(
-                tracksCount = playlist.tracksCount + 1,
-                trackIds = updatedTrackIds
-            )
-
-            db.playlistDao().update(updatedPlaylist)
-            true
         } catch (e: Exception) {
+            e.printStackTrace()
             false
         }
     }
 
+
     override suspend fun isTrackInPlaylist(playlistId: Long, trackId: Long): Boolean {
-        val playlist = db.playlistDao().getPlaylistById(playlistId) ?: return false
-        return playlist.trackIds.contains(trackId)
+        return db.playlistTrackDao().isTrackInPlaylist(playlistId, trackId)
     }
 
     override suspend fun getPlaylists(): List<Playlist> {

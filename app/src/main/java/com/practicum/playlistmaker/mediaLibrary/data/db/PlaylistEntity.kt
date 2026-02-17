@@ -14,6 +14,5 @@ data class PlaylistEntity(
     val description: String?,
     val coverPath: String?,
     val tracksCount: Int = 0,
-    val trackIds: List<Long> = emptyList(),
     val createdAt: Long = System.currentTimeMillis()
 )

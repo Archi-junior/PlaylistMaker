@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/coverImage"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:scaleType="centerCrop"
         android:layout_marginStart="13dp"
         android:src="@drawable/ic_image_placeholder_34" />
@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="8dp"
         android:orientation="vertical">
 
         <TextView

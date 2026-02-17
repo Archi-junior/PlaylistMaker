@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/colorSurfaceVariant">
 
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorSurfaceVariant"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +88,7 @@
                 android:layout_marginTop="32dp"
                 android:hint="@string/playlist_name"
                 app:boxBackgroundMode="outline"
-                app:boxBackgroundColor="?attr/colorPrimary">
+                app:boxBackgroundColor="?attr/colorSurfaceVariant">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameInput"
@@ -107,7 +107,7 @@
                 android:layout_marginTop="16dp"
                 android:hint="@string/playlist_description"
                 app:boxBackgroundMode="outline"
-                app:boxBackgroundColor="?attr/colorPrimary">
+                app:boxBackgroundColor="?attr/colorSurfaceVariant">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/descriptionInput"

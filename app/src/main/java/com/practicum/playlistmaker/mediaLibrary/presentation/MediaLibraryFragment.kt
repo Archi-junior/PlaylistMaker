@@ -27,8 +27,8 @@ class MediaLibraryFragment : Fragment(R.layout.fragment_media_library) {
 
         tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> getString(R.string.playlists)
-                else -> getString(R.string.favorites)
+                0 -> getString(R.string.favorites)
+                else -> getString(R.string.playlists)
             }
         }.apply { attach() }
     }
