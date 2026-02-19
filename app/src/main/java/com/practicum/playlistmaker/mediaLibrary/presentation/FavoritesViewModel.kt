@@ -1,8 +1,8 @@
-package com.practicum.playlistmaker.medialibrary.presentation
+package com.practicum.playlistmaker.mediaLibrary.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.player.domain.interactors.IFavoritesInteractor
+import com.practicum.playlistmaker.mediaLibrary.domain.interactors.IFavoritesInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

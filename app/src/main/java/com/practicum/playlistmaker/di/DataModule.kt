@@ -1,7 +1,7 @@
     package com.practicum.playlistmaker.di
 
     import com.practicum.playlistmaker.player.data.PlayerRepositoryImpl
-    import com.practicum.playlistmaker.player.data.db.AppDatabase
+    import com.practicum.playlistmaker.mediaLibrary.data.db.AppDatabase
     import com.practicum.playlistmaker.player.domain.repository.PlayerRepository
     import com.practicum.playlistmaker.search.data.repository.SearchHistoryRepositoryImpl
     import com.practicum.playlistmaker.search.data.repository.TrackRepositoryImpl

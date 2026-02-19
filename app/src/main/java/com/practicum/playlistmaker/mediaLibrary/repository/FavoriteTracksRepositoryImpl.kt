@@ -1,9 +1,9 @@
-package com.practicum.playlistmaker.player.data.repository
+package com.practicum.playlistmaker.mediaLibrary.repository
 
-import com.practicum.playlistmaker.player.data.db.FavoriteTracksDao
-import com.practicum.playlistmaker.player.data.db.FavoriteTrackEntity
+import com.practicum.playlistmaker.mediaLibrary.data.db.FavoriteTracksDao
+import com.practicum.playlistmaker.mediaLibrary.data.db.FavoriteTrackEntity
 import com.practicum.playlistmaker.search.domain.models.Track
-import com.practicum.playlistmaker.player.domain.repository.FavoriteTracksRepository
+import com.practicum.playlistmaker.mediaLibrary.domain.repository.FavoriteTracksRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

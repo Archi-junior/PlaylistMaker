@@ -35,6 +35,14 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         binding.favoriteButton.setOnClickListener {
             viewModel.onFavoriteClicked()
         }
+        binding.addToPlaylistButton.setOnClickListener {
+            showPlaylistSelectionDialog()
+        }
+    }
+
+    private fun showPlaylistSelectionDialog() {
+        val dialog = PlaylistBottomSheetDialog.newInstance(viewModel.track)
+        dialog.show(parentFragmentManager, "PlaylistSelectionDialog")
     }
 
     private fun observeViewModel() {

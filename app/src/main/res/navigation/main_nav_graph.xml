@@ -18,14 +18,22 @@
 
     <fragment
         android:id="@+id/mediaLibraryFragment"
-        android:name="com.practicum.playlistmaker.medialibrary.presentation.MediaLibraryFragment"
+        android:name="com.practicum.playlistmaker.mediaLibrary.presentation.MediaLibraryFragment"
         android:label="MediaLibraryFragment"
         tools:layout="@layout/fragment_media_library">
 
         <action
             android:id="@+id/action_mediaLibrary_to_player"
             app:destination="@id/playerFragment"/>
+        <action
+            android:id="@+id/action_mediaLibrary_to_newPlaylist"
+            app:destination="@id/newPlaylistFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/newPlaylistFragment"
+        android:name="com.practicum.playlistmaker.mediaLibrary.presentation.NewPlaylistFragment"
+        android:label="NewPlaylistFragment" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -38,6 +46,10 @@
         android:name="com.practicum.playlistmaker.player.presentation.PlayerFragment"
         android:label="PlayerFragment"
         tools:layout="@layout/fragment_player">
+
+        <action
+            android:id="@+id/action_player_to_newPlaylist"
+            app:destination="@id/newPlaylistFragment" />
 
         <argument
             android:name="track"

@@ -1,7 +1,7 @@
 package com.practicum.playlistmaker.di
 
-import com.practicum.playlistmaker.player.domain.interactors.FavoritesInteractor
-import com.practicum.playlistmaker.player.domain.interactors.IFavoritesInteractor
+import com.practicum.playlistmaker.mediaLibrary.domain.interactors.FavoritesInteractor
+import com.practicum.playlistmaker.mediaLibrary.domain.interactors.IFavoritesInteractor
 import com.practicum.playlistmaker.player.domain.interactors.PlayerInteractor
 import com.practicum.playlistmaker.search.domain.interactors.HistoryInteractor
 import com.practicum.playlistmaker.search.domain.interactors.IHistoryInteractor

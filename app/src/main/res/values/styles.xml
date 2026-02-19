@@ -32,6 +32,34 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomDialogButton</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorAlertDialogListItem">@color/black</item>
+        <item name="colorAccent">@color/progress_main</item>
+    </style>
+
+    <style name="CustomDialogButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">#3772E7</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/stroke_selector</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="hintTextColor">?attr/colorOnSecondaryFixed</item>
+        <item name="android:textColorHint">?attr/colorOnSecondaryFixed</item>
+        <item name="colorControlActivated">?attr/colorOnSecondaryFixed</item>
+        <item name="colorControlHighlight">?attr/colorOnSecondaryFixed</item>
+    </style>
+
     <style name="SettingsText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

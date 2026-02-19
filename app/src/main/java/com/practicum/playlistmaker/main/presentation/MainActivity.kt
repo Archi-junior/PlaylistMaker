@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             updateToolbar(destination.id)
             when (destination.id) {
                 R.id.playerFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.newPlaylistFragment -> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
         }
@@ -54,7 +55,8 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomDivider.visibility = View.GONE
             } else {
                 val currentDestination = navController.currentDestination?.id
-                if (currentDestination != R.id.playerFragment) {
+                if (currentDestination != R.id.playerFragment &&
+                    currentDestination != R.id.newPlaylistFragment) {
                     binding.bottomNavigationView.visibility = View.VISIBLE
                     binding.bottomDivider.visibility = View.VISIBLE
                 }
@@ -82,6 +84,10 @@ class MainActivity : AppCompatActivity() {
             R.id.playerFragment -> {
                 binding.titleText.visibility = View.GONE
                 binding.backButton.visibility = View.VISIBLE
+            }
+            R.id.newPlaylistFragment -> {
+                binding.titleText.visibility = View.GONE
+                binding.backButton.visibility = View.GONE
             }
         }
     }
