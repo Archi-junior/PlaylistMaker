@@ -3,32 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="24dp">
-
-    <TextView
-        android:id="@+id/dialogTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/ys_medium_400"
-        android:text="@string/finish_creating_playlist"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialogMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:fontFamily="@font/ys_medium_400"
-        android:text="@string/unsaved_changes_warning"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="46dp"
+        android:fontFamily="@font/ys_regular"
+        android:text="@string/delete_playlist_confirmation"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
         android:gravity="end"
         android:orientation="horizontal">
 
@@ -36,24 +28,24 @@
             android:id="@+id/negativeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
             android:background="@android:color/transparent"
             android:backgroundTint="@android:color/transparent"
-            android:minWidth="80dp"
             android:stateListAnimator="@null"
             android:text="@string/cancel"
-            android:textColor="@color/progress_main" />
+            android:textColor="@color/progress_main"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/positiveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
             android:backgroundTint="@android:color/transparent"
-            android:minWidth="80dp"
             android:stateListAnimator="@null"
             android:text="@string/finish"
-            android:textColor="@color/progress_main" />
+            android:textColor="@color/progress_main"
+            android:textSize="20sp" />
 
     </LinearLayout>
 

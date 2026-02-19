@@ -8,7 +8,6 @@ import com.practicum.playlistmaker.search.data.repository.SearchHistoryRepositor
 import com.practicum.playlistmaker.search.data.repository.TrackRepositoryImpl
 import com.practicum.playlistmaker.search.domain.repository.SearchHistoryRepository
 import com.practicum.playlistmaker.search.domain.repository.TrackRepository
-import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -18,8 +17,7 @@ val repositoryModule = module {
 
     single<PlaylistRepository> {
         PlaylistRepositoryImpl(
-            db = get(),
-            filesDir = androidContext().filesDir
+            db = get(), context = get()
         )
     }
 

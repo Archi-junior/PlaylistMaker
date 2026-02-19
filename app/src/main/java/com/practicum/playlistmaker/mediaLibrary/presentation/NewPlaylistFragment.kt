@@ -29,19 +29,18 @@ class NewPlaylistFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private var hasUnsavedChanges = false
 
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        uri?.let {
-            selectedImageUri = it
-            loadImageToCover(it)
-            hasUnsavedChanges = true
-            checkCreateButtonState()
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            uri?.let {
+                selectedImageUri = it
+                loadImageToCover(it)
+                hasUnsavedChanges = true
+                checkCreateButtonState()
+            }
         }
-    }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNewPlaylistBinding.inflate(inflater, container, false)
         return binding.root
@@ -90,6 +89,7 @@ class NewPlaylistFragment : Fragment() {
                     ).show()
                     findNavController().popBackStack()
                 }
+
                 is NewPlaylistState.Error -> {
                     Toast.makeText(
                         requireContext(),
@@ -98,24 +98,22 @@ class NewPlaylistFragment : Fragment() {
                     ).show()
                 }
 
-                NewPlaylistState.Idle -> { }
+                NewPlaylistState.Idle -> {}
             }
         }
     }
 
     private fun loadImageToCover(uri: Uri) {
-        Glide.with(this)
-            .load(uri)
-            .transform(
+        Glide.with(this).load(uri).transform(
                 CenterCrop(),
                 RoundedCorners(resources.getDimensionPixelSize(R.dimen.cover_corner_radius))
-            )
-            .into(binding.coverImage)
+            ).into(binding.coverImage)
 
         binding.coverPlaceholder.visibility = View.GONE
         binding.coverImage.visibility = View.VISIBLE
 
-        binding.coverContainer.background = ContextCompat.getDrawable(requireContext(), R.drawable.cover_image_rounded)
+        binding.coverContainer.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.cover_image_rounded)
     }
 
     private fun checkCreateButtonState() {
@@ -124,9 +122,9 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun handleBackPress() {
-        if (hasUnsavedChanges && (selectedImageUri != null ||
-                    binding.nameInput.text.toString().isNotBlank() ||
-                    binding.descriptionInput.text.toString().isNotBlank())) {
+        if (hasUnsavedChanges && (selectedImageUri != null || binding.nameInput.text.toString()
+                .isNotBlank() || binding.descriptionInput.text.toString().isNotBlank())
+        ) {
 
             showExitConfirmationDialog()
         } else {
@@ -136,8 +134,7 @@ class NewPlaylistFragment : Fragment() {
 
     private fun showExitConfirmationDialog() {
         val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
-            .setView(R.layout.dialog_exit_confirmation)
-            .create()
+            .setView(R.layout.dialog_exit_confirmation).create()
 
         dialog.show()
 

@@ -10,12 +10,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingVertical="@dimen/padding_item_vertical"
-        android:layout_marginTop="16dp">
+        android:paddingVertical="@dimen/padding_item_vertical">
 
         <TextView
             style="@style/SettingsText"
@@ -25,13 +25,13 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/themeSwitcher"
-            android:layout_marginHorizontal="60dp"
-            android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginHorizontal="60dp"
             android:layout_marginEnd="@dimen/margin_small"
             app:thumbTint="@color/switch_thumb_color"
-            app:trackTint="@color/switch_track_color"/>
+            app:trackTint="@color/switch_track_color" />
     </LinearLayout>
 
     <TextView

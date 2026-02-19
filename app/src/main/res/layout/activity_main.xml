@@ -40,7 +40,7 @@
             android:fontFamily="@font/ys_medium_500"
             android:text="@string/search_header"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="22sp"/>
+            android:textSize="22sp" />
 
     </LinearLayout>
 
@@ -61,9 +61,9 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/divider"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView" />
+        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

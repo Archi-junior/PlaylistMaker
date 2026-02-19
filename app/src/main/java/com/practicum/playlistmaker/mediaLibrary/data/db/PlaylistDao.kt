@@ -1,9 +1,9 @@
 package com.practicum.playlistmaker.mediaLibrary.data.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
@@ -15,18 +15,24 @@ interface PlaylistDao {
     @Query("SELECT * FROM playlists ORDER BY createdAt DESC")
     fun getAllPlaylists(): Flow<List<PlaylistEntity>>
 
-    @Query("SELECT * FROM playlists ORDER BY createdAt DESC")
-    suspend fun getAllPlaylistsSync(): List<PlaylistEntity>
-
     @Query("SELECT * FROM playlists WHERE id = :id")
     suspend fun getPlaylistById(id: Long): PlaylistEntity?
 
     @Update
     suspend fun update(playlist: PlaylistEntity)
 
-    @Query("UPDATE playlists SET tracksCount = :tracksCount WHERE id = :playlistId")
-    suspend fun updateTracksCount(playlistId: Long, tracksCount: Int)
+    @Delete
+    suspend fun delete(playlist: PlaylistEntity)
 
-    @Query("DELETE FROM playlists WHERE id = :id")
-    suspend fun deleteById(id: Long)
+    @Query("SELECT * FROM playlist_tracks WHERE playlistId = :playlistId")
+    suspend fun getPlaylistTrackIds(playlistId: Long): List<PlaylistTrackEntity>
+
+    @Query("DELETE FROM playlist_tracks WHERE playlistId = :playlistId AND trackId = :trackId")
+    suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
+
+    @Query("SELECT COUNT(*) FROM playlist_tracks WHERE trackId = :trackId")
+    suspend fun getTrackUsageCount(trackId: Long): Int
+
+    @Query("UPDATE playlists SET tracksCount = :count WHERE id = :playlistId")
+    suspend fun updateTracksCount(playlistId: Long, count: Int)
 }

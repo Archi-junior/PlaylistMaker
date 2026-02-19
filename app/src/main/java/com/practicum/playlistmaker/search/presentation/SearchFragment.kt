@@ -90,19 +90,25 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
-        adapter = TrackAdapter { track ->
-            viewModel.onTrackClicked(track)
-            binding.tracksRecyclerView.post {
-                openPlayer(track)
-            }
-        }
+        adapter = TrackAdapter(
+            onItemClick = { track ->
+                viewModel.onTrackClicked(track)
+                binding.tracksRecyclerView.post {
+                    openPlayer(track)
+                }
+            },
+            onItemLongClick = {}
+        )
         binding.tracksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.tracksRecyclerView.adapter = adapter
 
-        historyAdapter = TrackAdapter { track ->
-            viewModel.addToHistory(track)
-            openPlayer(track)
-        }
+        historyAdapter = TrackAdapter(
+            onItemClick = { track ->
+                viewModel.addToHistory(track)
+                openPlayer(track)
+            },
+            onItemLongClick = {}
+        )
         binding.historyRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.historyRecycler.adapter = historyAdapter
     }

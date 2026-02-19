@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.playerFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.newPlaylistFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.playlistFragment -> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
         }
@@ -56,7 +57,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val currentDestination = navController.currentDestination?.id
                 if (currentDestination != R.id.playerFragment &&
-                    currentDestination != R.id.newPlaylistFragment) {
+                    currentDestination != R.id.newPlaylistFragment && currentDestination != R.id.playlistFragment
+                ) {
                     binding.bottomNavigationView.visibility = View.VISIBLE
                     binding.bottomDivider.visibility = View.VISIBLE
                 }
@@ -71,21 +73,30 @@ class MainActivity : AppCompatActivity() {
                 binding.titleText.text = getString(R.string.search_header)
                 binding.backButton.visibility = View.GONE
             }
+
             R.id.mediaLibraryFragment -> {
                 binding.titleText.visibility = View.VISIBLE
                 binding.titleText.text = getString(R.string.media_library_screen_title)
                 binding.backButton.visibility = View.GONE
             }
+
             R.id.settingsFragment -> {
                 binding.titleText.visibility = View.VISIBLE
                 binding.titleText.text = getString(R.string.settings_title)
                 binding.backButton.visibility = View.GONE
             }
+
             R.id.playerFragment -> {
                 binding.titleText.visibility = View.GONE
                 binding.backButton.visibility = View.VISIBLE
             }
+
             R.id.newPlaylistFragment -> {
+                binding.titleText.visibility = View.GONE
+                binding.backButton.visibility = View.GONE
+            }
+
+            R.id.playlistFragment -> {
                 binding.titleText.visibility = View.GONE
                 binding.backButton.visibility = View.GONE
             }

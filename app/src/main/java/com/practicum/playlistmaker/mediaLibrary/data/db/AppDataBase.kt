@@ -8,8 +8,8 @@ import androidx.room.TypeConverters
 import com.practicum.playlistmaker.mediaLibrary.data.db.converters.LongListConverter
 
 @Database(
-    entities = [FavoriteTrackEntity::class, PlaylistEntity::class, PlaylistTrackEntity::class],
-    version = 4,
+    entities = [FavoriteTrackEntity::class, PlaylistEntity::class, PlaylistTrackEntity::class, TrackEntity::class],
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(LongListConverter::class)
@@ -17,6 +17,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun favoriteTracksDao(): FavoriteTracksDao
     abstract fun playlistDao(): PlaylistDao
     abstract fun playlistTrackDao(): PlaylistTrackDao
+    abstract fun trackDao(): TrackDao
 
     companion object {
         private const val DATABASE_NAME = "playlist_maker.db"

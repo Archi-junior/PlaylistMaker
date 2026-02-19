@@ -11,7 +11,9 @@ import com.practicum.playlistmaker.databinding.ItemPlaylistBinding
 import com.practicum.playlistmaker.mediaLibrary.domain.model.Playlist
 import java.io.File
 
-class PlaylistAdapter : RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>() {
+class PlaylistAdapter(
+    private val onItemClick: (Playlist) -> Unit
+) : RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>() {
 
     private var playlists = listOf<Playlist>()
 
@@ -35,9 +37,18 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>
 
     override fun getItemCount() = playlists.size
 
-    class PlaylistViewHolder(
+    inner class PlaylistViewHolder(
         private val binding: ItemPlaylistBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClick(playlists[position])
+                }
+            }
+        }
 
         fun bind(playlist: Playlist) {
             binding.playlistName.text = playlist.name
@@ -47,15 +58,14 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>
                 playlist.tracksCount
             )
 
-            if (!playlist.coverPath.isNullOrBlank() && File(playlist.coverPath).exists()) {
-                Glide.with(itemView)
+            if (playlist.coverPath != null) {
+                Glide.with(itemView.context)
                     .load(File(playlist.coverPath))
                     .transform(
                         CenterCrop(),
                         RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.playlist_cover_radius))
                     )
                     .placeholder(R.drawable.ic_image_placeholder_34)
-                    .error(R.drawable.ic_image_placeholder_34)
                     .into(binding.coverImage)
             } else {
                 binding.coverImage.setImageResource(R.drawable.ic_image_placeholder_34)
