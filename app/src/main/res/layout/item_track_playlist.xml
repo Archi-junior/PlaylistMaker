@@ -6,6 +6,9 @@
     android:layout_marginStart="@dimen/track_item_padding"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="horizontal">
 
     <ImageView
@@ -76,11 +79,13 @@
             android:fontFamily="@font/ys_regular"
             android:singleLine="true"
             android:textColor="?attr/colorSecondary"
-            android:textSize="@dimen/track_subtext_size" />
+            android:textSize="@dimen/track_subtext_size"
+            android:visibility="gone" />
 
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/arrow_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

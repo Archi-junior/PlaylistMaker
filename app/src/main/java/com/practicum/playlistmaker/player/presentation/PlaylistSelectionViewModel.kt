@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.mediaLibrary.domain.interactors.IPlaylistInteractor
 import com.practicum.playlistmaker.mediaLibrary.domain.model.Playlist
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -17,8 +18,10 @@ class PlaylistSelectionViewModel(
     private val _playlists = MutableLiveData<List<Playlist>>()
     val playlists: LiveData<List<Playlist>> = _playlists
 
-    private val _toastMessage = MutableLiveData<String>()
-    val toastMessage: LiveData<String> = _toastMessage
+    private val _toastMessage = MutableLiveData<Int>()
+    val toastMessage: LiveData<Int> = _toastMessage
+
+    private val _toastMessageArg = MutableLiveData<String>()
 
     init {
         loadPlaylists()
@@ -33,15 +36,14 @@ class PlaylistSelectionViewModel(
 
     fun onPlaylistSelected(playlist: Playlist) {
         viewModelScope.launch {
-            val isAdded = playlistInteractor.addTrackToPlaylist(playlist.id, track.trackId)
-
-            val message = if (isAdded) {
-                "Добавлено в плейлист ${playlist.name}"
+            val isAdded = playlistInteractor.addTrackToPlaylist(playlist.id, track)
+            if (isAdded) {
+                _toastMessage.postValue(R.string.track_added_to_playlist)
+                _toastMessageArg.postValue(playlist.name)
             } else {
-                "Трек уже добавлен в плейлист ${playlist.name}"
+                _toastMessage.postValue(R.string.track_already_in_playlist)
+                _toastMessageArg.postValue(playlist.name)
             }
-
-            _toastMessage.postValue(message)
         }
     }
 }

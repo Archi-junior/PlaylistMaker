@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_mediaLibrary_to_newPlaylist"
             app:destination="@id/newPlaylistFragment" />
+        <action
+            android:id="@+id/action_mediaLibrary_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
     </fragment>
 
     <fragment
@@ -55,5 +58,37 @@
             android:name="track"
             app:argType="com.practicum.playlistmaker.search.domain.models.Track" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="com.practicum.playlistmaker.mediaLibrary.presentation.PlaylistFragment"
+        android:label="PlaylistFragment">
+
+        <argument
+            android:name="playlistId"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_playlistFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+
+        <action
+            android:id="@+id/action_playlistFragment_to_editPlaylistFragment"
+            app:destination="@id/editPlaylistFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editPlaylistFragment"
+        android:name="com.practicum.playlistmaker.mediaLibrary.presentation.EditPlaylistFragment"
+        android:label="EditPlaylistFragment">
+
+        <argument
+            android:name="playlist"
+            app:argType="com.practicum.playlistmaker.mediaLibrary.domain.model.Playlist" />
+
+        <action
+            android:id="@+id/action_editPlaylistFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
     </fragment>
 </navigation>

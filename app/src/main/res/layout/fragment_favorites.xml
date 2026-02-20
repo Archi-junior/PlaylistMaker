@@ -16,8 +16,8 @@
         android:id="@+id/placeholder_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginTop="102dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
@@ -37,4 +37,3 @@
             android:textSize="@dimen/text_info_large" />
     </LinearLayout>
 </LinearLayout>
-

@@ -9,6 +9,7 @@
     <dimen name="margin_icon">4dp</dimen>
     <dimen name="margin_bottom_text">24dp</dimen>
     <dimen name="text_title">22sp</dimen>
+    <dimen name="bottom_sheet_peek_height">200dp</dimen>
     <dimen name="text_item">16sp</dimen>
     <dimen name="text_info_large">19sp</dimen>
     <dimen name="icon_padding_top">10dp</dimen>

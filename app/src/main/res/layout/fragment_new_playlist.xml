@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?attr/colorSurfaceVariant">
+    android:background="?attr/colorSurfaceVariant"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/toolbar"
@@ -38,7 +38,7 @@
             android:fontFamily="@font/ys_medium_500"
             android:text="@string/new_playlist"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="22sp"/>
+            android:textSize="22sp" />
 
     </LinearLayout>
 
@@ -58,12 +58,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="312dp"
                 android:layout_weight="1"
-                android:maxHeight="200dp"
                 android:background="@drawable/cover_dashed_border"
-                android:padding="1dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                android:foreground="?attr/selectableItemBackground"
+                android:maxHeight="200dp"
+                android:padding="1dp">
 
                 <ImageView
                     android:id="@+id/coverPlaceholder"
@@ -87,16 +87,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:hint="@string/playlist_name"
-                app:boxBackgroundMode="outline"
-                app:boxBackgroundColor="?attr/colorSurfaceVariant">
+                app:boxBackgroundColor="?attr/colorSurfaceVariant"
+                app:boxBackgroundMode="outline">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:textColor="?attr/colorOnSurface"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:textColor="?attr/colorOnSurface" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,8 +106,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/playlist_description"
-                app:boxBackgroundMode="outline"
-                app:boxBackgroundColor="?attr/colorSurfaceVariant">
+                app:boxBackgroundColor="?attr/colorSurfaceVariant"
+                app:boxBackgroundMode="outline">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/descriptionInput"
@@ -124,11 +124,11 @@
 
     <Button
         android:id="@+id/createButton"
+        style="@style/SecondButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:enabled="false"
-        android:text="@string/create"
         android:backgroundTint="@color/button_background_selector"
-        style="@style/SecondButton" />
+        android:enabled="false"
+        android:text="@string/create" />
 </LinearLayout>

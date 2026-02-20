@@ -3,35 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/colorPrimary"
+    android:orientation="vertical">
 
     <View
         android:layout_width="50dp"
         android:layout_height="4dp"
-        android:background="@drawable/ic_rectangle_divider"
         android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:background="@drawable/ic_rectangle_divider" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/add_to_playlist"
-        android:textSize="19sp"
-        android:textColor="?attr/colorOnSurface"
-        android:fontFamily="@font/ys_medium_500"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="28dp" />
+        android:layout_marginBottom="28dp"
+        android:fontFamily="@font/ys_medium_500"
+        android:text="@string/add_to_playlist"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="19sp" />
 
     <Button
         android:id="@+id/newPlaylistButton"
+        style="@style/SecondButton"
         android:layout_width="wrap_content"
-        android:layout_gravity="top|center_horizontal"
         android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
         android:layout_marginBottom="24dp"
-        android:text="@string/create_new_playlist"
-        style="@style/SecondButton" />
+        android:text="@string/create_new_playlist" />
 
 
     <androidx.recyclerview.widget.RecyclerView
