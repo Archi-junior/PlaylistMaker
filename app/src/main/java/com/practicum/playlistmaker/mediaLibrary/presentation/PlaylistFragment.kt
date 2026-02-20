@@ -38,9 +38,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return binding.root
@@ -51,18 +49,12 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
 
         setupToolbar()
         setupRecyclerView()
-        setupCallbacks()
         observeViewModel()
     }
 
-    private fun setupCallbacks() {
-        viewModel.onShareReady = { shareText ->
-            sharePlaylist(shareText)
-        }
-
-        viewModel.onEmptyPlaylist = {
-            showEmptyPlaylistMessage()
-        }
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshPlaylistData()
     }
 
     private fun sharePlaylist(shareText: String) {
@@ -89,14 +81,11 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
     }
 
     private fun setupRecyclerView() {
-        tracksAdapter = TrackAdapter(
-            onItemClick = { track ->
-                openPlayer(track)
-            },
-            onItemLongClick = { track ->
-                showDeleteTrackDialog(track)
-            }
-        )
+        tracksAdapter = TrackAdapter(onItemClick = { track ->
+            openPlayer(track)
+        }, onItemLongClick = { track ->
+            showDeleteTrackDialog(track)
+        })
 
         binding.tracksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.tracksRecyclerView.adapter = tracksAdapter
@@ -125,8 +114,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
 
     private fun showDeletePlaylistDialog() {
         val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
-            .setView(R.layout.dialog_delete_playlist_confirmation)
-            .create()
+            .setView(R.layout.dialog_delete_playlist_confirmation).create()
 
         dialog.show()
         dialog.findViewById<Button>(R.id.negativeButton)?.setOnClickListener {
@@ -145,6 +133,27 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
                 viewModel.state.collect { state ->
                     renderState(state)
                 }
+            }
+        }
+
+        viewModel.shareEvent.observe(viewLifecycleOwner) { shareText ->
+            shareText?.let {
+                sharePlaylist(it)
+                viewModel.onShareEventHandled()
+            }
+        }
+
+        viewModel.emptyPlaylistEvent.observe(viewLifecycleOwner) { isEmpty ->
+            if (isEmpty) {
+                showEmptyPlaylistMessage()
+                viewModel.onEmptyPlaylistEventHandled()
+            }
+        }
+
+        viewModel.navigateBackEvent.observe(viewLifecycleOwner) { shouldNavigate ->
+            if (shouldNavigate) {
+                findNavController().popBackStack()
+                viewModel.onNavigateBackEventHandled()
             }
         }
     }
@@ -176,24 +185,19 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
     private fun bindPlaylistInfo(playlist: Playlist, totalDuration: String) {
         binding.playlistName.text = playlist.name
         binding.playlistDescription.text = playlist.description ?: ""
-        binding.playlistDescription.visibility = if (playlist.description.isNullOrBlank()) View.GONE else View.VISIBLE
+        binding.playlistDescription.visibility =
+            if (playlist.description.isNullOrBlank()) View.GONE else View.VISIBLE
 
         binding.tracksCount.text = resources.getQuantityString(
-            R.plurals.tracks_count,
-            playlist.tracksCount,
-            playlist.tracksCount
+            R.plurals.tracks_count, playlist.tracksCount, playlist.tracksCount
         )
         binding.totalDuration.text = totalDuration
 
         if (playlist.coverPath != null) {
-            Glide.with(this)
-                .load(playlist.coverPath)
-                .transform(
+            Glide.with(this).load(playlist.coverPath).transform(
                     CenterCrop(),
                     RoundedCorners(resources.getDimensionPixelSize(R.dimen.cover_corner_radius))
-                )
-                .placeholder(R.drawable.ic_image_placeholder_34)
-                .into(binding.coverImage)
+                ).placeholder(R.drawable.ic_image_placeholder_34).into(binding.coverImage)
         } else {
             binding.coverImage.setImageResource(R.drawable.ic_image_placeholder_34)
         }
@@ -211,8 +215,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
 
     private fun showDeleteTrackDialog(track: Track) {
         val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
-            .setView(R.layout.dialog_delete_track_confirmation)
-            .create()
+            .setView(R.layout.dialog_delete_track_confirmation).create()
 
         dialog.show()
 
@@ -228,8 +231,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
 
     private fun openPlayer(track: Track) {
         findNavController().navigate(
-            R.id.action_playlistFragment_to_playerFragment,
-            bundleOf("track" to track)
+            R.id.action_playlistFragment_to_playerFragment, bundleOf("track" to track)
         )
     }
 

@@ -1,6 +1,8 @@
 package com.practicum.playlistmaker.mediaLibrary.presentation
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.mediaLibrary.domain.interactors.IPlaylistInteractor
@@ -31,9 +33,14 @@ class PlaylistViewModel(
     private var currentPlaylist: Playlist? = null
     private var currentTracks: List<Track> = emptyList()
 
-    var onShareReady: ((String) -> Unit)? = null
-    var onEmptyPlaylist: (() -> Unit)? = null
-    var onPlaylistDeleted: (() -> Unit)? = null
+    private val _shareEvent = MutableLiveData<String?>()
+    val shareEvent: LiveData<String?> = _shareEvent
+
+    private val _emptyPlaylistEvent = MutableLiveData<Boolean>()
+    val emptyPlaylistEvent: LiveData<Boolean> = _emptyPlaylistEvent
+
+    private val _navigateBackEvent = MutableLiveData<Boolean>()
+    val navigateBackEvent: LiveData<Boolean> = _navigateBackEvent
 
     init {
         loadPlaylistData(playlistId)
@@ -82,7 +89,7 @@ class PlaylistViewModel(
         viewModelScope.launch {
             val playlist = currentPlaylist ?: return@launch
             playlistInteractor.deletePlaylist(playlist.id)
-            onPlaylistDeleted?.invoke()
+            _navigateBackEvent.value = true
         }
     }
 
@@ -94,12 +101,10 @@ class PlaylistViewModel(
 
     fun onShareClicked() {
         if (currentTracks.isEmpty()) {
-            onEmptyPlaylist?.invoke()
+            _emptyPlaylistEvent.value = true
         } else {
             val shareText = buildShareText()
-            shareText?.let {
-                onShareReady?.invoke(it)
-            }
+            _shareEvent.value = shareText
         }
     }
 
@@ -115,6 +120,24 @@ class PlaylistViewModel(
             tracks.forEachIndexed { index, track ->
                 appendLine("${index + 1}. ${track.artistName} - ${track.trackName} (${track.trackTime})")
             }
+        }
+    }
+
+    fun onShareEventHandled() {
+        _shareEvent.value = null
+    }
+
+    fun onEmptyPlaylistEventHandled() {
+        _emptyPlaylistEvent.value = false
+    }
+
+    fun onNavigateBackEventHandled() {
+        _navigateBackEvent.value = false
+    }
+
+    fun refreshPlaylistData() {
+        currentPlaylist?.id?.let { playlistId ->
+            loadPlaylistData(playlistId)
         }
     }
 

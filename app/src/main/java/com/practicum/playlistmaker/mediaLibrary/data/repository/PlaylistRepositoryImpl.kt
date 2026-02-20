@@ -92,7 +92,7 @@ class PlaylistRepositoryImpl(
         }
         return db.trackDao().getTracksByIds(trackIds).map { entity ->
             entity.toDomain()
-        }
+        }.sortedBy { track -> trackIds.indexOf(track.trackId) }
     }
 
     override suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long) {

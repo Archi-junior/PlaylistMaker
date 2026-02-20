@@ -137,9 +137,7 @@ class EditPlaylistFragment : Fragment() {
                         getString(R.string.playlist_updated, state.playlistName),
                         Toast.LENGTH_SHORT
                     ).show()
-                    val updatedPlaylistId = viewModel.getPlaylistId()
-                    val bundle = bundleOf("playlistId" to updatedPlaylistId)
-                    findNavController().navigate(R.id.action_editPlaylistFragment_to_playlistFragment, bundle)
+                    findNavController().popBackStack()
                 }
                 is NewPlaylistState.Error -> {
                     Toast.makeText(
